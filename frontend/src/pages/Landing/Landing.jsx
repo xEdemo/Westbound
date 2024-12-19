@@ -1,6 +1,10 @@
+import { Layout } from "../../components"
+
 const Landing = () => {
 	return (
-		<div>hi</div>
+		<Layout>
+			{/* content */}
+		</Layout>
 	)
 };
 

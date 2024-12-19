@@ -1,0 +1,40 @@
+.header-container {
+	height: 60px;
+	background-color: aqua;
+	font-size: 1.4rem;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.header-container > a {
+	position: absolute;
+	cursor: pointer;
+}
+
+.header-upper,
+.header-lower {
+	width: 100%;
+	min-height: 30px;
+	display: flex;
+	gap: 10px;
+}
+
+.header-upper {
+	justify-content: end;
+	border-bottom: 1px solid black;
+	padding-right: 10px;
+}
+
+.header-container > ul > li {
+	height: 30px;
+}
+
+.header-upper ul li a {
+	display: block;
+	height: 30px;
+}
+
+.header-upper li a:hover {
+	cursor: pointer;
+}

@@ -6,6 +6,7 @@ import "./index.css";
 
 // Components CSS
 import "./components/Layout/Layout.css";
+import "./components/Header/Header.css";
 
 // Pages CSS
 import "./pages/Landing/Landing.css";

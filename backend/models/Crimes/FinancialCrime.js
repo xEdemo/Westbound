@@ -9,9 +9,7 @@ const FinancialCrimeSchema = new mongoose.Schema(
 		},
 		levelRequired: {
 			type: Number,
-			required: function () {
-				return this.isNew; // Required only on creation
-			},
+			required: true,
 		},
 		rewards: {
 			// Could be items, money, etc. (would have to make a loot table)
@@ -22,9 +20,7 @@ const FinancialCrimeSchema = new mongoose.Schema(
 		baseChanceToSucceed: {
 			// Number from 0-100
 			type: Number,
-			required: function () {
-				return this.isNew; // Required only on creation
-			},
+			required: true,
 		},
 	},
 	{
@@ -32,6 +28,6 @@ const FinancialCrimeSchema = new mongoose.Schema(
 	}
 );
 
-const Financial = mongoose.model("Financial", FinancialCrimeSchema);
+const Financial = mongoose.model("FinancialCrime", FinancialCrimeSchema);
 
 module.exports = Financial;

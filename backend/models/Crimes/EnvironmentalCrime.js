@@ -28,6 +28,6 @@ const EnvironmentalCrimeSchema = new mongoose.Schema(
 	}
 );
 
-const Environmental = mongoose.model("Environmental", EnvironmentalCrimeSchema);
+const Environmental = mongoose.model("EnvironmentalCrime", EnvironmentalCrimeSchema);
 
 module.exports = Environmental;

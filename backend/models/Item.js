@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");			//TODO: Add source var to all items as to where it can be located on various markets word to timbs
+const mongoose = require("mongoose"); //TODO: Add source var to all items as to where it can be located on various markets word to timbs
 
 const ItemSchema = new mongoose.Schema(
 	// beginning of base Vars
@@ -26,6 +26,10 @@ const ItemSchema = new mongoose.Schema(
 
 		// future dynamic handling of economics > math function in controller
 		value: {
+			circulation: {
+				type: Number,
+				default: 0,
+			},
 			currentValue: {
 				type: Number,
 				default: 1,
@@ -62,10 +66,6 @@ const ItemSchema = new mongoose.Schema(
 					default: 0,
 				},
 			},
-		},
-		circulation: {
-			type: Number,
-			default: 0,
 		},
 		properties: {
 			baseProperties: {
@@ -169,64 +169,62 @@ const ItemSchema = new mongoose.Schema(
 						},
 						primaryWeapon: {
 							name: {
-								type: String,		// add starter wepaons comment
+								type: String, // add starter wepaons comment
 								enum: [
 									"Winchester Model 1873", //Repeater
 									"Spencer Repeating Rifle", //Repeater
-									"Henry Repeating Rifle",//Repeater
-									"Springfield Model 1873",//Rifle
-									"Sharps Model 1874",//Rifle
-									"Remington Rolling Block Rifle",//Rifle
+									"Henry Repeating Rifle", //Repeater
+									"Springfield Model 1873", //Rifle
+									"Sharps Model 1874", //Rifle
+									"Remington Rolling Block Rifle", //Rifle
 									"Plains Recurve Bow", //bow
-									"Longbow",//bow
-									"Flatbow",//bow
+									"Longbow", //bow
+									"Flatbow", //bow
 									"Coach Gun", //shotgun
-									"Lever-Action Shotgun",//shotgun
-									"Sawed-Off Shotgun",//shotgun
+									"Lever-Action Shotgun", //shotgun
+									"Sawed-Off Shotgun", //shotgun
 									"Kentucky Flintlock Musket", //musket
-									"Springfield Model 1842",//musket
-									"Harper's Ferry Musket",//musket
+									"Springfield Model 1842", //musket
+									"Harper's Ferry Musket", //musket
 									"Ranger's Pocket Shot", //slingshot
-									"Wooden Slingbow",//slingshot
-									"Iron slingshot",//slingshot
+									"Wooden Slingbow", //slingshot
+									"Iron slingshot", //slingshot
 								],
 							},
 							type: {
 								type: String,
 								enum: [
-									"Repeater", 
-									"Rifle", 
+									"Repeater",
+									"Rifle",
 									"Bow",
 									"Shotgun",
 									"Musket", // starter weapons, mainly outdated but still used by settlers
 									"Slingshot",
 								],
 							},
-							properties: {     //TODO: Decide if i want this in here
+							properties: {
+								//TODO: Decide if i want this in here
 								damageType: {
 									type: String,
 									enum: [
-										"Piercing", 
-										"Bludgeoning", 
+										"Piercing",
+										"Bludgeoning",
 										"Slashing",
 										"Impact",
 										"",
 										"",
 									],
 								},
-								material: {		// Possibly expand these subcats to include the types
+								material: {
+									// Possibly expand these subcats to include the types
 									type: String,
-									enum: [
-										"", 
-										"", 
-										"",
-									],
+									enum: ["", "", ""],
 								},
 								ammunitionType: {
 									type: String,
 									enum: [
-										"Cartidge",  // rifles
-										"Shell",  // shotguns
+										"Cartidge", // rifles
+										"Shell", // shotguns
 										"Black Powder", // muskets
 										"Arrows", //bow and arrow and crossbow
 									],
@@ -237,76 +235,70 @@ const ItemSchema = new mongoose.Schema(
 							name: {
 								type: String,
 								enum: [
-									"Pistols", 
+									"Pistols",
 									"small firearms", // sawed off shotguns, pepperbox rifles
-									"improvised firearms", 
+									"improvised firearms",
 								],
 							},
 							type: {
 								type: String,
 								enum: [
-									"Pistols", 
+									"Pistols",
 									"small firearms", // sawed off shotguns, pepperbox rifles
-									"improvised firearms", 
+									"improvised firearms",
 								],
 							},
-							properties: { // TODO: 
+							properties: {
+								// TODO:
 								damageType: {
 									type: String,
 									enum: [
-										"Piercing", 
-										"Bludgeoning", 
+										"Piercing",
+										"Bludgeoning",
 										"Impact",
 										"Slashing",
 									],
 								},
-								material: {		// TODO: Make it cross reference materials
+								material: {
+									// TODO: Make it cross reference materials
 									type: String,
-									enum: [
-										"Iron", 
-										"Steel", 
-										"Wood"
-									],
+									enum: ["Iron", "Steel", "Wood"],
 								},
 								ammunitionType: {
 									type: String,
-									enum: [
-										"Cartidge", 
-										"Shell", 
-										"Black Powder"
-									],
+									enum: ["Cartidge", "Shell", "Black Powder"],
 								},
 							},
 						},
 						meleeWeapon: {
-							name: { 
+							name: {
 								type: String,
 								enum: [
 									[
-										"Bowie Knife",       // A large, curved knife used for close combat and self-defense, popular during the Wild West period.
-										"Tomahawk",          // A hand axe, often used by Native Americans for throwing or close-range combat, and also by settlers.
-										"Machete",           // A broad-bladed knife used for cutting vegetation or as a combat weapon in the Wild West.
-										"Cutlass",           // A short, curved sword used primarily by sailors and sometimes in hand-to-hand combat in the Wild West.
-										
-										"Sledgehammer",      // A heavy hammer, often used in construction, but could be used as a powerful melee weapon in brawls.
-										"Club",              // A simple, blunt weapon made from wood or metal, used for striking during fights or brawls.
-										"Billiard Cue Stick",// Often used in saloons for both its intended purpose (billiards) and as an improvised weapon in disputes.
-										"Cavalry Mace",      // A spiked weapon used by cavalry soldiers, designed to deal bludgeoning damage in close combat.
-										
-										"Cavalry Sabre",     // A curved sword used by mounted soldiers and cavalrymen, ideal for slashing and thrusting.
-										"Dagger",            // A short, pointed weapon used for stabbing in close-range combat.
-										"Rancher’s Spear",   // A long spear used by ranchers for herding cattle, which could also be used in combat for thrusting.
-										"Dirk",              // A long, stabbing knife used as a secondary weapon for thrusting in close combat.
-										
-										"Broken Bottle",     // A bottle used as an improvised weapon, with the glass shards being used to cut or stab.
-										"Horse Whip",        // A whip used for controlling horses, but also utilized in combat for striking opponents at a distance.
-										"Rancher’s Lasso",   // A rope used to catch livestock but can be used in a fight to entangle or immobilize enemies.
-										"Canteen",           // A water container that could be swung or used as a makeshift bludgeoning weapon in desperate situations.
-									  ]
-									  
+										"Bowie Knife", // A large, curved knife used for close combat and self-defense, popular during the Wild West period.
+										"Tomahawk", // A hand axe, often used by Native Americans for throwing or close-range combat, and also by settlers.
+										"Machete", // A broad-bladed knife used for cutting vegetation or as a combat weapon in the Wild West.
+										"Cutlass", // A short, curved sword used primarily by sailors and sometimes in hand-to-hand combat in the Wild West.
+
+										"Sledgehammer", // A heavy hammer, often used in construction, but could be used as a powerful melee weapon in brawls.
+										"Club", // A simple, blunt weapon made from wood or metal, used for striking during fights or brawls.
+										"Billiard Cue Stick", // Often used in saloons for both its intended purpose (billiards) and as an improvised weapon in disputes.
+										"Cavalry Mace", // A spiked weapon used by cavalry soldiers, designed to deal bludgeoning damage in close combat.
+
+										"Cavalry Sabre", // A curved sword used by mounted soldiers and cavalrymen, ideal for slashing and thrusting.
+										"Dagger", // A short, pointed weapon used for stabbing in close-range combat.
+										"Rancher’s Spear", // A long spear used by ranchers for herding cattle, which could also be used in combat for thrusting.
+										"Dirk", // A long, stabbing knife used as a secondary weapon for thrusting in close combat.
+
+										"Broken Bottle", // A bottle used as an improvised weapon, with the glass shards being used to cut or stab.
+										"Horse Whip", // A whip used for controlling horses, but also utilized in combat for striking opponents at a distance.
+										"Rancher’s Lasso", // A rope used to catch livestock but can be used in a fight to entangle or immobilize enemies.
+										"Canteen", // A water container that could be swung or used as a makeshift bludgeoning weapon in desperate situations.
+									],
 								],
 							},
-							type: { // TODO: get rud if, want many melee weapons
+							type: {
+								// TODO: get rud if, want many melee weapons
 								type: String,
 								enum: [
 									"Blades",
@@ -319,8 +311,8 @@ const ItemSchema = new mongoose.Schema(
 								damageType: {
 									type: String, // TODO: add more but need balancing with others
 									enum: [
-										"Piercing", 
-										"Bludgeoning", 
+										"Piercing",
+										"Bludgeoning",
 										"Impact",
 										"Slashing",
 									],
@@ -331,22 +323,15 @@ const ItemSchema = new mongoose.Schema(
 								},
 							},
 						},
-						Garments: {			// leave garments out for now
+						Garments: {
+							// leave garments out for now
 							name: {
 								type: String,
-								enum: [
-									"", 
-									"", 
-									"",
-								],
+								enum: ["", "", ""],
 							},
 							type: {
 								type: String,
-								enum: [
-									"", 
-									"", 
-									"",
-								],
+								enum: ["", "", ""],
 							},
 							properties: {
 								damageType: {
@@ -368,26 +353,26 @@ const ItemSchema = new mongoose.Schema(
 								type: String,
 								enum: [
 									// Wound Care
-									"bandage",       // A basic bandage used to stop bleeding   		
-									"salve",         // Ointments or salves used to heal wounds
-									"splint",        // A splint used to stabilize broken limbs
+									"bandage", // A basic bandage used to stop bleeding
+									"salve", // Ointments or salves used to heal wounds
+									"splint", // A splint used to stabilize broken limbs
 									//Restorative
 
-									"medicine",      // General medicine to heal or cure ailments 		
-									"tonic",         // Healing tonics or potions for quick recovery
-									"healingHerb",   // Special herbs used for natural healing
+									"medicine", // General medicine to heal or cure ailments
+									"tonic", // Healing tonics or potions for quick recovery
+									"healingHerb", // Special herbs used for natural healing
 									// Pain Relief
 
-									"antidote",      // A remedy for poisons or toxins
-									"syringe",       // A syringe for medical injection (e.g., vaccine, stimulant)
-									"painkiller",    // Painkillers for reducing damage effects
-									"firstAidKit",   // A kit containing a variety of medical supplies
+									"antidote", // A remedy for poisons or toxins
+									"syringe", // A syringe for medical injection (e.g., vaccine, stimulant)
+									"painkiller", // Painkillers for reducing damage effects
+									"firstAidKit", // A kit containing a variety of medical supplies
 									// Carrier
 
-									"kit",            // A compact, portable kit containing basic medical supplies
-									"pouch",          // A small pouch for carrying essential medical items or herbs
-									"satchel",        // A small bag used to carry medical supplies or other essentials	
-									"bandolier",      // A medical bandolier to carry multiple medical supplies for easy access during an emergency
+									"kit", // A compact, portable kit containing basic medical supplies
+									"pouch", // A small pouch for carrying essential medical items or herbs
+									"satchel", // A small bag used to carry medical supplies or other essentials
+									"bandolier", // A medical bandolier to carry multiple medical supplies for easy access during an emergency
 								],
 							},
 							type: {
@@ -406,44 +391,44 @@ const ItemSchema = new mongoose.Schema(
 								},
 								material: {
 									type: String,
-									enum: [
-									],
+									enum: [],
 								},
 								usageType: {
 									type: String,
 									enum: [
-										"instant",     // used and works instantly - PAIN RELIEF
-										"overTime",    // used and heals gradually - RESTORATIVE
-										"temporary",   // not used - CARRIER
-										"consumable",  // used after one use - WOUND CARE
+										"instant", // used and works instantly - PAIN RELIEF
+										"overTime", // used and heals gradually - RESTORATIVE
+										"temporary", // not used - CARRIER
+										"consumable", // used after one use - WOUND CARE
 									],
 								},
 								effectType: {
 									type: String,
 									enum: [
-										"health",        // Restores health points or hits
-										"stamina",       // Restores stamina or energy
-										"toxicity",      // Removes poison or toxins
-										"painRelief",    // Reduces pain effects or temporary debuffs
-										"statusEffect",  // Cures or mitigates other status effects (e.g., burns)
-										"buff",          // Temporary buffs to stats (e.g., increased speed, resistance)
+										"health", // Restores health points or hits
+										"stamina", // Restores stamina or energy
+										"toxicity", // Removes poison or toxins
+										"painRelief", // Reduces pain effects or temporary debuffs
+										"statusEffect", // Cures or mitigates other status effects (e.g., burns)
+										"buff", // Temporary buffs to stats (e.g., increased speed, resistance)
 									],
 								},
-								duration: {			// used for tiers of medicine inside a SUBCAT
+								duration: {
+									// used for tiers of medicine inside a SUBCAT
 									type: String,
 									enum: [
-										"instant",       // Effects take place immediately
-										"short",         // Effects last for a short period of time
-										"medium",        // Effects last for a medium period of time
-										"long",          // Effects last for a longer period of time
+										"instant", // Effects take place immediately
+										"short", // Effects last for a short period of time
+										"medium", // Effects last for a medium period of time
+										"long", // Effects last for a longer period of time
 									],
 								},
 								rarity: {
 									type: String,
 									enum: [
-										"common",    // Widely available medical supplies
-										"uncommon",  // Slightly rarer medical supplies
-										"rare",      // Rare or expensive medical supplies
+										"common", // Widely available medical supplies
+										"uncommon", // Slightly rarer medical supplies
+										"rare", // Rare or expensive medical supplies
 										"legendary", // Legendary medical supplies, possibly with magical or unique properties
 									],
 								},
@@ -453,7 +438,8 @@ const ItemSchema = new mongoose.Schema(
 								},
 							},
 						},
-						Packs: {		// leave out for now
+						Packs: {
+							// leave out for now
 							name: {
 								type: String,
 								enum: ["", "", ""],
@@ -476,28 +462,12 @@ const ItemSchema = new mongoose.Schema(
 						Tools: {
 							name: {
 								type: String,
-								enum: [
-								],
+								enum: [],
 							},
-							properties: {
-								material: {
-									type: String,
-									enum: ["", "", ""],
-								},
-								tierLevel: {
-									type: Number,
-									enum: [
-										1, 
-										2, 
-										3,
-									],
-								},
-							},
-						},
-						type: {
-							name: {
+							type: {
 								type: String,
-								enum: [			//TODO: Where the fuck do Gemstones come into play? 
+								enum: [
+									//TODO: Where the fuck do Gemstones come into play?
 									"Metals", // Metalworking skill
 									"Harvests", // Agriculture skilling (farming)
 									"Lumbers", // Lumbering skill (woodcutting)
@@ -597,7 +567,8 @@ const ItemSchema = new mongoose.Schema(
 								},
 								uses: {
 									type: String,
-									enum: [				//TODO: 
+									enum: [
+										//TODO:
 										"Crafting", // General crafting
 										"Building", // Construction purposes
 										"Weapons", // Crafting materials for weapons
@@ -619,7 +590,8 @@ const ItemSchema = new mongoose.Schema(
 								},
 								rarity: {
 									type: String,
-									enum: [						// TODO: Needs rewording retard
+									enum: [
+										// TODO: Needs rewording retard
 										"Common", // Easy to find, inexpensive
 										"Uncommon", // Rare, requires effort to gather
 										"Rare", // Difficult to find, valuable
@@ -645,7 +617,7 @@ const ItemSchema = new mongoose.Schema(
 									"Rope",
 									"Whistle",
 
-									//camping 
+									//camping
 									"Sleeping Bag",
 									"Tent",
 									"Camping Stove",
@@ -744,7 +716,7 @@ const ItemSchema = new mongoose.Schema(
 									"",
 									"",
 								],
-							},			// TODO: Requires more knowledge, do later
+							}, // TODO: Requires more knowledge, do later
 							// properties: {
 							// 	legalStatus: {
 							// 		type: String,
@@ -759,27 +731,15 @@ const ItemSchema = new mongoose.Schema(
 							properties: {
 								damageType: {
 									type: String,
-									enum: [
-										"", 
-										"", 
-										"",
-									],
+									enum: ["", "", ""],
 								},
 								material: {
 									type: String,
-									enum: [
-										"", 
-										"", 
-										"",
-									],
+									enum: ["", "", ""],
 								},
 								ammunitionType: {
 									type: String,
-									enum: [
-										"", 
-										"", 
-										"",
-									],
+									enum: ["", "", ""],
 								},
 							},
 						},

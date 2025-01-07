@@ -19,7 +19,7 @@ const CrimeSchema = new mongoose.Schema(
 			// Could be many things and could vary (maybe a penalty table?)
 			type: mongoose.Schema.Types.Mixed,
 		},
-		baseChanceToSucceed: {
+		difficulty: {
 			// Number from 0-100
 			type: Number,
 			required: true,
@@ -33,9 +33,70 @@ const CrimeSchema = new mongoose.Schema(
 	},
 	{
 		timestamps: true,
+		discriminatorKey: "true",
 	}
 );
 
+const FinancialCrimeSchema = new mongoose.Schema({
+	// Can put someting here that applies to all financial crimes if needed
+	fineAmount: { 
+		type: Number, 
+		required: true 
+	},
+
+
+	
+
+	forgery: {
+		counterfeitCurrency: {
+			resourceCost: {
+
+			},
+		},
+		documentForgery: {
+			document: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Item",
+			},
+			resourcesNeeded: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Item",
+			},
+		},
+		falifiedChecksAndBonds: {
+
+		},
+	},
+	fraud: {
+		debtBondage: {
+
+		},
+	},
+	extortion: {
+
+	},
+	loanSharking: {
+
+	},
+});
+
+const EnvironmentalCrimeSchema = new mongoose.Schema({
+	// Applies to all environmental crimes if needed
+	environmentalDamage: { 
+		type: Number, 
+		min: 0, 
+		max: 100, 
+		required: true 
+	},
+}); 
+
 const Crime = mongoose.model("Crime", CrimeSchema);
 
-module.exports = Crime;
+const FinancialCrime = Crime.discriminator("Financial", FinancialCrimeSchema);
+
+const EnvironmentalCrime = Crime.discriminator(
+	"Environment",
+	EnvironmentalCrimeSchema
+);
+
+module.exports = { Crime, FinancialCrime, EnvironmentalCrime };

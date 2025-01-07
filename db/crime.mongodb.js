@@ -1,24 +1,24 @@
+const { validateCrimeCreation } = require("./validation/crimes.js");
+
 use("Westbound");
 
-const now = new Date();
+const now = Date.now();
 
 db.crimes.createIndex({ name: 1 }, { unique: true });
 
-db.getCollection("crimes").insertMany([
-	{
-		name: "Disposal",
-		type: "Environmental",
-		baseChanceToSucceed: 65,
-		levelRequired: 1,
-		createdAt: now,
-		updated: now,
-	},
-	{
-		name: "Arson",
-		type: "Environmental",
-		baseChanceToSucceed: 45,
-		levelRequired: 10,
-		createdAt: now,
-		updated: now,
-	},
-]);
+const crime = {
+	name: "Ar",
+	type: "Environmental",
+	difficulty: 1,
+	levelRequired: 1,
+	environmentalDamage: 2,
+	createdAt: now,
+}
+
+const validationError = validateCrimeCreation(crime);
+if (!validationError) {
+	db.crimes.insertOne(crime);
+} else {
+	console.log(validationError.msg)
+}
+

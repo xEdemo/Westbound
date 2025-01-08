@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
-const { Crime, EnvironmentalCrime, FinancialCrime } = require("../models");
+const { Crime, Environmental, Financial } = require("../models");
 
 /**
  * @desc    Used to get all existing crimes
@@ -45,67 +45,6 @@ const getCrimeById = asyncHandler(async (req, res) => {
 	throw new Error(
 		`Crime with ID ${crimeId} not found in Financial or Environmental records.`
 	);
-});
-
-const createCrime = asyncHandler(async (req, res) => {
-	const {
-		name,
-		type,
-		difficulty,
-		levelRequired,
-		environmentalDamage,
-		fineAmount,
-	} = req.body;
-
-	if (!name || !levelRequired || !difficulty || !type) {
-		res.status(StatusCodes.BAD_REQUEST);
-		throw new Error(`Please fill out all required fields.`);
-	}
-
-	const isExist = await Crime.findOne({ name });
-	if (isExist) {
-		res.status(StatusCodes.CONFLICT);
-		throw new Error(
-			`A crime with the name "${name}" already exists.`
-		);
-	}
-
-	let crime;
-
-	if (type === "Financial") {
-		if (!fineAmount) {
-			res.status(StatusCodes.BAD_REQUEST);
-			throw new Error(`Please fill out the fineAmount required fields.`);
-		}
-
-		crime = await FinancialCrime.create({
-			name,
-			type,
-			difficulty,
-			levelRequired,
-			fineAmount,
-		});
-	} else if (type === "Environmental") {
-		if (!environmentalDamage) {
-			res.status(StatusCodes.BAD_REQUEST);
-			throw new Error(
-				`Environmental crimes require environmentalDamage.`
-			);
-		}
-
-		crime = await EnvironmentalCrime.create({
-			name,
-			type,
-			difficulty,
-			levelRequired,
-			environmentalDamage,
-		});
-	} else {
-		res.status(StatusCodes.BAD_REQUEST);
-		throw new Error(`Invalid crime type.`);
-	}
-
-	res.status(StatusCodes.OK).json({ crime });
 });
 
 /**
@@ -403,7 +342,6 @@ const updateFinancialCrime = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-	createCrime,
 	getAllCrimes,
 	getCrimeById,
 	deleteCrimeById,

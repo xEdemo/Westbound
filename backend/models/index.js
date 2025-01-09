@@ -1,11 +1,12 @@
 const User = require("./User.js");
-const { Crime, FinancialCrime, EnvironmentalCrime } = require("./Crime.js")
+const { Crime, FinancialCrime, ViolentCrime, ProptertyCrime } = require("./Crime.js")
 const Item = require("./Item.js");
 
 module.exports = {
 	User,
 	Crime,
 	FinancialCrime,
-	EnvironmentalCrime,
+	ViolentCrime,
+	ProptertyCrime,
 	Item,
 }

@@ -185,6 +185,7 @@ const getAllFinancialCrimes = asyncHandler(async (req, res) => {
 module.exports = {
 	getAllCrimes,
 	getCrimeById,
+	createCrime,
 	updateCrime,
 	deleteCrimeById,
 	getAllEnvironmentalCrimes,

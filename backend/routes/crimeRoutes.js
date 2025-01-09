@@ -4,23 +4,26 @@ const router = express.Router();
 const { protect, admin, superAdmin } = require("../middleware/authHandler.js");
 
 const {
-	createCrime,
 	getAllCrimes,
 	getCrimeById,
+	createCrime,
+	updateCrime,
 	deleteCrimeById,
-	createEnvironmentalCrime,
 	getAllEnvironmentalCrimes,
-	updateEnvironmentalCrime,
-	createFinancialCrime,
 	getAllFinancialCrimes,
-	updateFinancialCrime,
 } = require("../controllers/crimeController.js");
 
+router.route("/environmental").get([protect], getAllEnvironmentalCrimes);
+router.route("/financial").get([protect], getAllFinancialCrimes);
 // Generic routes last
-router.route("/").get([protect, superAdmin], getAllCrimes).post([protect, superAdmin], createCrime);
+router
+	.route("/")
+	.get([protect], getAllCrimes)
+	.post([protect, superAdmin], createCrime);
 router
 	.route("/:crimeId")
 	.get([protect], getCrimeById)
+	.put([protect, superAdmin], updateCrime)
 	.delete([protect, superAdmin], deleteCrimeById);
 
 module.exports = router;

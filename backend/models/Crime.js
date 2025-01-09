@@ -109,44 +109,13 @@ const ViolentCrimeSchema = new mongoose.Schema({
 const PropertyCrimeSchema = new mongoose.Schema({
 	Sabotage: {
 		infrastructure: {
-			successChance: { type: Number, min: 0, max: 100, default: 60 },
-			staminaCost: { type: Number, default: 20 },
-			potentialRewards: {
-				type: mongoose.Schema.Types.Mixed,
-				default: { disruption: 50, loot: ["tools"] },
-			},
-			potentialPenalties: {
-				type: mongoose.Schema.Types.Mixed,
-				default: { injury: "minor", arrestChance: 30 },
-			},
+			
 		},
 		machinery: {
-			successChance: { type: Number, min: 0, max: 100, default: 50 },
-			staminaCost: { type: Number, default: 25 },
-			potentialRewards: {
-				type: mongoose.Schema.Types.Mixed,
-				default: { cash: 300, loot: ["spare parts"], reputation: 5 },
-			},
-			potentialPenalties: {
-				type: mongoose.Schema.Types.Mixed,
-				default: {
-					injury: "severe",
-					arrestChance: 60,
-					jailTime: "2 years",
-				},
-			},
+			
 		},
 		transport: {
-			successChance: { type: Number, min: 0, max: 100, default: 45 },
-			staminaCost: { type: Number, default: 30 },
-			potentialRewards: {
-				type: mongoose.Schema.Types.Mixed,
-				default: { cash: 500, supplies: ["fuel", "cargo"] },
-			},
-			potentialPenalties: {
-				type: mongoose.Schema.Types.Mixed,
-				default: { injury: "critical", arrestChance: 75 },
-			},
+			
 		},
 	},
 });

@@ -183,7 +183,6 @@ const getAllFinancialCrimes = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-	createCrime,
 	getAllCrimes,
 	getCrimeById,
 	updateCrime,

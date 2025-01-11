@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { crimeType } = require("../utils/enum.js")
 
 const CrimeSchema = new mongoose.Schema(
 	{
@@ -8,16 +9,20 @@ const CrimeSchema = new mongoose.Schema(
 		},
 		type: {
 			type: String,
-			enum: ["Financial", "Environmental"],
+			enum: crimeType,
 			required: true,
 		},
 		rewards: {
 			// Could be items, money, etc. (would have to make a loot table)
-			type: mongoose.Schema.Types.Mixed, // Flexible for different data types
+			type: mongoose.Schema.Types.ObjectId, // Flexible for different data types
+			ref: "LootTable",
+			required: true,
 		},
 		penalty: {
 			// Could be many things and could vary (maybe a penalty table?)
-			type: mongoose.Schema.Types.Mixed,
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "PenalityTable",
+			required: true,
 		},
 		difficulty: {
 			// Number from 0-100
@@ -34,6 +39,7 @@ const CrimeSchema = new mongoose.Schema(
 			type: Number,
 			min: 0,
 			max: 100,
+			required: true,
 		},
 		staminaCost: {
 			type: Number,

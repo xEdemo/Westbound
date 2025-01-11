@@ -33,10 +33,12 @@ app.use(express.urlencoded({ extended: true }));
 // Route Imports
 const userRouter = require("./routes/userRoutes.js");
 const crimeRouter = require("./routes/crimeRoutes.js");
+const itemRouter = require("./routes/itemRoutes.js");
 
 // Routes
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/crime", crimeRouter);
+app.use("/api/v1/item", itemRouter);
 
 // Error handlers
 app.use(notFound);

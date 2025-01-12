@@ -37,6 +37,21 @@ const UserSchema = new mongoose.Schema(
 			enum: ["user", "admin", "superAdmin"],
 			default: "user",
 		},
+		crime: [{
+			id: {
+				type: mongoose.Schema.Types.ObjectId,
+			},
+			name: { 
+				type: String,
+			},
+			level: {
+				type: Number,
+			},
+			xp: {
+				type: Number,
+			},
+			_id: false,
+		}],
 	},
 	{
 		timestamps: true,

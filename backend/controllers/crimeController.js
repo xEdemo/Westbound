@@ -1,6 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
-const { Crime, FinancialCrime, LootTable, PenaltyTable } = require("../models");
+const {
+	User,
+	Crime,
+	FinancialCrime,
+	LootTable,
+	PenaltyTable,
+} = require("../models");
 const { crimeType, crimeSubtype } = require("../utils/enum.js");
 
 /**
@@ -239,40 +245,19 @@ const createCrime = asyncHandler(async (req, res) => {
 		staminaCost,
 	});
 
-	//let crime;
-
-	// if (type === "Financial") {
-	// 	if (!fineAmount) {
-	// 		res.status(StatusCodes.BAD_REQUEST);
-	// 		throw new Error(`Please fill out the fineAmount required fields.`);
-	// 	}
-
-	// 	crime = await FinancialCrime.create({
-	// 		name,
-	// 		type,
-	// 		difficulty,
-	// 		levelRequired,
-	// 		fineAmount,
-	// 	});
-	// } else if (type === "Environmental") {
-	// 	if (!environmentalDamage) {
-	// 		res.status(StatusCodes.BAD_REQUEST);
-	// 		throw new Error(
-	// 			`Environmental crimes require environmentalDamage.`
-	// 		);
-	// 	}
-
-	// 	crime = await EnvironmentalCrime.create({
-	// 		name,
-	// 		type,
-	// 		difficulty,
-	// 		levelRequired,
-	// 		environmentalDamage,
-	// 	});
-	// } else {
-	// 	res.status(StatusCodes.BAD_REQUEST);
-	// 	throw new Error(`Invalid crime type.`);
-	// }
+	await User.updateMany(
+		{},
+		{
+			$addToSet: {
+				crime: {
+					id: crime._id,
+					name: crime.name,
+					level: 1,
+					xp: 0,
+				},
+			},
+		}
+	);
 
 	res.status(StatusCodes.OK).json({ crime });
 });
@@ -308,13 +293,22 @@ const deleteCrimeById = asyncHandler(async (req, res) => {
 	const crime = await Crime.findById(crimeId);
 	if (!crime) {
 		res.status(StatusCodes.NOT_FOUND);
-		throw new Error(
-			`Crime with ID ${crimeId} not found in crime records.`
-		);
+		throw new Error(`Crime with ID ${crimeId} not found in crime records.`);
 	}
-
+	// Delete related LootTable and PenaltyTable entries
 	await LootTable.findOneAndDelete({ for: crime.name });
 	await PenaltyTable.findOneAndDelete({ for: crime.name });
+
+	// Remove the crime from all users
+	await User.updateMany(
+		{},
+		{
+		  $pull: {
+			crime: { id: crime._id },
+		  },
+		}
+	  );
+
 	await Crime.findByIdAndDelete(crimeId);
 
 	return res.status(StatusCodes.OK).json({

@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
-const { User } = require("../models");
+const { User, Crime } = require("../models");
 const { createJWT } = require("../config/createJWT.js");
 
 /**
@@ -22,13 +22,23 @@ const registerUser = asyncHandler(async (req, res) => {
 		throw new Error(`The username ${username} is already taken.`);
 	}
 
-	const user = await User.create({ username, email, password });
+	const allCrimes = await Crime.find({});
+
+	const crime = allCrimes.map((c) => ({
+		id: c._id,
+		name: c.name,
+		level: 1,
+		xp: 0,
+	}));
+
+	const user = await User.create({ username, email, password, crime });
 
 	if (user) {
 		res.status(StatusCodes.CREATED).json({
 			_id: user._id,
 			username: user.username,
 			email: user.email,
+			crime,
 		});
 	} else {
 		res.status(StatusCodes.BAD_REQUEST);

@@ -301,6 +301,26 @@ const ItemSchema = new mongoose.Schema(
 						// },
 					},
 				},
+				intoxicants: {
+					type: {
+						type: String,
+						enum: [
+							"", 
+							"", 
+							"",
+						],
+					},
+					properties: {
+						damageType: {
+							type: String,
+							enum: [
+								"", 
+								"", 
+								"",
+							],
+						},
+					},
+				},
 				garments: {
 					// leave garments out for now
 					// name: {

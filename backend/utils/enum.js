@@ -28,7 +28,7 @@ const itemCategory = [
 	"armour",
 	"garments",
 	"medical",
-	"drugs",
+	"intoxicants",
 	"supplies",
 	"tools",
 	"materials",

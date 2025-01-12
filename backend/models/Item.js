@@ -18,10 +18,10 @@ const ItemSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		effect: {
-			type: String,
-			required: true,
-		},
+		// effect: { 
+		// 	type: String,
+		// 	required: true,
+		// },
 		// tier: {
 		// 	type: String,
 		// },
@@ -90,23 +90,15 @@ const ItemSchema = new mongoose.Schema(
 						"Belt",
 					],
 				},
-				condition: {
-					type: Number,
-					min: [0, "Must be a positive number"], // frontned handles rusty etc
-					max: [100, " Must not exceed 100"], // frontend handles qual etc
-				},
-				weight: {
-					type: Number,
-				},
-				baseArmourValue: {
+				armourValue: {
 					type: Number,
 				},
 				damage: {
 					type: Number,
 				},
-				baseChanceToHit: {
+				accuracy: {
 					type: Number,
-					min: [0, "Cannot have a negative base chance to hit."],
+					min: [0, "Cannot have negative accuracy."],
 					max: 100,
 				},
 				consumable: {
@@ -118,7 +110,6 @@ const ItemSchema = new mongoose.Schema(
 					default: false,
 				},
 			},
-			// cat of item
 			category: {
 				type: String,
 				enum: itemCategory,

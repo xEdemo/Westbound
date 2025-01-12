@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { crimeType } = require("../utils/enum.js")
+const { crimeType, crimeSubtype } = require("../utils/enum.js");
 
 const CrimeSchema = new mongoose.Schema(
 	{
@@ -12,30 +12,35 @@ const CrimeSchema = new mongoose.Schema(
 			enum: crimeType,
 			required: true,
 		},
+		subtype: {
+			type: String,
+			required: true,
+			validate: {
+				validator: function (value) {
+					// Check if the subType exists within the corresponding type's array
+					return crimeSubtype[this.type]?.includes(value);
+				},
+				message: (props) =>
+					`${props.value} is not a valid subType for type ${props.instance.type}`,
+			},
+		},
 		rewards: {
-			// Could be items, money, etc. (would have to make a loot table)
-			type: mongoose.Schema.Types.ObjectId, // Flexible for different data types
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "LootTable",
 			required: true,
 		},
 		penalty: {
-			// Could be many things and could vary (maybe a penalty table?)
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "PenalityTable",
+			ref: "PenaltyTable",
 			required: true,
 		},
 		difficulty: {
-			// Number from 0-100
 			type: Number,
-			required: true,
 			min: 0,
 			max: 100,
-		},
-		levelRequired: {
-			type: Number,
 			required: true,
 		},
-		successChance: {
+		levelRequired: {
 			type: Number,
 			min: 0,
 			max: 100,
@@ -53,76 +58,42 @@ const CrimeSchema = new mongoose.Schema(
 );
 
 const FinancialCrimeSchema = new mongoose.Schema({
-	Forgery: {
-		counterfeitCurrency: {
-
-		},
-		documentForgery: {
-
-		},
-		falsifiedChecksAndBonds: {
-
-		},
+	forgery: {
+		counterfeitCurrency: {},
+		documentForgery: {},
+		falsifiedChecksAndBonds: {},
 	},
-	Fraud: {
-		debtBondage: {
-
-		},
+	fraud: {
+		debtBondage: {},
 	},
-	Extortion: {
-		blackmail: {
-
-		},
+	extortion: {
+		blackmail: {},
 	},
-	LoanSharking: {
-		predatoryLending: {
-
-		},
-		intimidation: {
-			
-		},
+	loanSharking: {
+		predatoryLending: {},
+		intimidation: {},
 	},
 });
 
 const ViolentCrimeSchema = new mongoose.Schema({
-	Assault: {
-		simpleAssault: {
-			
-		},
-		aggravatedAssault: {
-			
-		},
-		battery: {
-			
-		},
-		aggravatedBattery: {
-			
-		},
+	assault: {
+		simpleAssault: {},
+		aggravatedAssault: {},
+		battery: {},
+		aggravatedBattery: {},
 	},
-	Murder: {
-		firstDegree: {
-			
-		},
-		secondDegree: {
-			
-		},
-		manslaughter: {
-			
-		},
+	murder: {
+		firstDegree: {},
+		secondDegree: {},
+		manslaughter: {},
 	},
 });
 
 const PropertyCrimeSchema = new mongoose.Schema({
-	Sabotage: {
-		infrastructure: {
-			
-		},
-		machinery: {
-			
-		},
-		transport: {
-			
-		},
+	sabotage: {
+		infrastructure: {},
+		machinery: {},
+		transport: {},
 	},
 });
 

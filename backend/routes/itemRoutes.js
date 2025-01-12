@@ -3,8 +3,8 @@ const router = express.Router();
 
 const { protect, admin, superAdmin } = require("../middleware/authHandler.js");
 
-const { createItem } = require("../controllers/itemController.js");
+const { createItem, getAllItems } = require("../controllers/itemController.js");
 
-router.route("/").post([protect, superAdmin], createItem);
+router.route("/").post([protect, superAdmin], createItem).get([protect], getAllItems);
 
 module.exports = router;

@@ -3,7 +3,16 @@
 /**
  * @desc	Enum for crime schema
  */
-const crimeType = ["Financial", "Violent", "Property"];
+const crimeType = ["financial", "violent", "property"];
+
+/**
+ * @desc	Validator for crime schema
+ */
+const crimeSubtype = {
+	financial: ["forgery", "fraud", "extortion", "loanSharking"],
+	violent: ["assault", "murder"],
+	property: ["sabotage"],
+};
 
 // End crime schema
 // Start item schema
@@ -28,5 +37,6 @@ const itemCategory = [
 
 module.exports = {
 	crimeType,
+	crimeSubtype,
 	itemCategory,
 };

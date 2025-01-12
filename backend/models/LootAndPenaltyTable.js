@@ -18,13 +18,16 @@ const LootTableSchema = new mongoose.Schema(
 			item: {
 				type: [mongoose.Schema.Types.ObjectId],
 				ref: "Item",
+				required: true,
 			},
 			cashReward: {
 				low: {
 					type: Number,
+					required: true,
 				},
 				high: {
 					type: Number,
+					required: true,
 				},
 			},
 			chance: {
@@ -38,13 +41,16 @@ const LootTableSchema = new mongoose.Schema(
 			item: {
 				type: [mongoose.Schema.Types.ObjectId],
 				ref: "Item",
+				required: true,
 			},
 			cashReward: {
 				low: {
 					type: Number,
+					required: true,
 				},
 				high: {
 					type: Number,
+					required: true,
 				},
 			},
 			chance: {
@@ -58,18 +64,21 @@ const LootTableSchema = new mongoose.Schema(
 			item: {
 				type: [mongoose.Schema.Types.ObjectId],
 				ref: "Item",
+				required: true,
 			},
 			cashReward: {
 				low: {
 					type: Number,
+					required: true,
 				},
 				high: {
 					type: Number,
+					required: true,
 				},
 			},
 			chance: {
 				type: Number,
-				default: 5,
+				default: 4,
 				min: 0,
 				max: 100,
 			},
@@ -78,13 +87,16 @@ const LootTableSchema = new mongoose.Schema(
 			item: {
 				type: [mongoose.Schema.Types.ObjectId],
 				ref: "Item",
+				required: true,
 			},
 			cashReward: {
 				low: {
 					type: Number,
+					required: true,
 				},
 				high: {
 					type: Number,
+					required: true,
 				},
 			},
 			chance: {
@@ -98,13 +110,16 @@ const LootTableSchema = new mongoose.Schema(
 			item: {
 				type: [mongoose.Schema.Types.ObjectId],
 				ref: "Item",
+				required: true,
 			},
 			cashReward: {
 				low: {
 					type: Number,
+					required: true,
 				},
 				high: {
 					type: Number,
+					required: true,
 				},
 			},
 			chance: {
@@ -118,13 +133,16 @@ const LootTableSchema = new mongoose.Schema(
 			item: {
 				type: [mongoose.Schema.Types.ObjectId],
 				ref: "Item",
+				required: true,
 			},
 			cashReward: {
 				low: {
 					type: Number,
+					required: true,
 				},
 				high: {
 					type: Number,
+					required: true,
 				},
 			},
 			chance: {
@@ -138,13 +156,16 @@ const LootTableSchema = new mongoose.Schema(
 			item: {
 				type: [mongoose.Schema.Types.ObjectId],
 				ref: "Item",
+				required: true,
 			},
 			cashReward: {
 				low: {
 					type: Number,
+					required: true,
 				},
 				high: {
 					type: Number,
+					required: true,
 				},
 			},
 			chance: {
@@ -158,13 +179,16 @@ const LootTableSchema = new mongoose.Schema(
 			item: {
 				type: [mongoose.Schema.Types.ObjectId],
 				ref: "Item",
+				required: true,
 			},
 			cashReward: {
 				low: {
 					type: Number,
+					required: true,
 				},
 				high: {
 					type: Number,
+					required: true,
 				},
 			},
 			chance: {
@@ -178,13 +202,16 @@ const LootTableSchema = new mongoose.Schema(
 			item: {
 				type: [mongoose.Schema.Types.ObjectId],
 				ref: "Item",
+				required: true,
 			},
 			cashReward: {
 				low: {
 					type: Number,
+					required: true,
 				},
 				high: {
 					type: Number,
+					required: true,
 				},
 			},
 			chance: {
@@ -216,6 +243,8 @@ const PenaltyTableSchema = new mongoose.Schema(
 		},
 		arrestChance: {
 			type: Number,
+			min: 0,
+			max: 100,
 			default: 10,
 		},
 		jailTime: {
@@ -233,17 +262,37 @@ const PenaltyTableSchema = new mongoose.Schema(
 );
 
 LootTableSchema.pre("save", function (next) {
-	const totalChance = Object.values(this.items).reduce(
-		(sum, tier) => sum + tier.chance,
-		0
-	);
+	// Get the loot tiers
+	const lootTiers = [
+		this.nothing,
+		this.common,
+		this.uncommon,
+		this.rare,
+		this.epic,
+		this.legendary,
+		this.mythic,
+		this.relic,
+		this.masterwork,
+		this.eternal,
+	];
+
+	// Calculate total chance
+	const totalChance = lootTiers.reduce((sum, tier) => {
+		if (tier && tier.chance !== undefined) {
+			return sum + tier.chance;
+		}
+		return sum;
+	}, 0);	
+
+	// Validate the total chance
 	if (totalChance !== 100) {
 		return next(new Error("The total chances must sum up to 100%."));
 	}
+
 	next();
 });
 
 const LootTable = mongoose.model("LootTable", LootTableSchema);
-const PenalityTable = mongoose.model("PenalityTable", PenaltyTableSchema);
+const PenaltyTable = mongoose.model("PenaltyTable", PenaltyTableSchema);
 
-module.exports = { LootTable, PenalityTable };
+module.exports = { LootTable, PenaltyTable };

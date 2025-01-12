@@ -3,7 +3,7 @@
 /**
  * @desc	Enum for crime schema
  */
-const crimeType = ["financial", "violent", "property"];
+const crimeType = ["financial", "violent", "property", "production"];
 
 /**
  * @desc	Validator for crime schema

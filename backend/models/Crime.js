@@ -53,39 +53,126 @@ const CrimeSchema = new mongoose.Schema(
 );
 
 const FinancialCrimeSchema = new mongoose.Schema({
-	Forgery: {
-		counterfeitCurrency: {
+	forgery: {
+		forgedCounterfeitCurrency: {
 
 		},
-		documentForgery: {
+		forgedDocuments: {
 
 		},
-		falsifiedChecksAndBonds: {
+		forgedFalsifiedChecksAndBonds: {
+
+		},
+		forgedIdentityDocuments: {
 
 		},
 	},
-	Fraud: {
-		debtBondage: {
+	fraud: {
+		financialFraud: {
 
 		},
+		insuranceFraud: {
+
+		},
+		investmentFraud: {
+		
+		},
+		ponziFraud: {
+		
+		},
+
 	},
-	Extortion: {
+	extortion: {
+		coercion: {
+
+		},
+		protectionRacket: {
+
+		},
 		blackmail: {
 
 		},
+		intimidation: {
+
+		},
 	},
-	LoanSharking: {
+	loanSharking: {
 		predatoryLending: {
 
 		},
-		intimidation: {
+		usuriousInterest: {
+			
+		},
+		collateralSeizure: {
+			
+		},
+		debtBondage: {
 			
 		},
 	},
 });
+const ProductionCrimeSchema = new mongoose.Schema({
+	moonshining: {
+		preparation: {
+
+		},
+		cultivation: {
+
+		},
+		harvest: {
+
+		},
+		distribution: {
+
+		},
+	},
+	peyoteCultivation: {
+		preparation: {
+
+		},
+		cultivation: {
+
+		},
+		harvest: {
+
+		},
+		distribution: {
+
+		},
+	},
+	opiumDenOperation: {
+		preparation: {
+
+		},
+		cultivation: {
+
+		},
+		harvest: {
+
+		},
+		distribution: {
+
+		},
+	},
+	cannabisFarming: {
+		preparation: {
+
+		},
+		cultivation: {
+
+		},
+		harvest: {
+
+		},
+		distribution: {
+
+		},
+	},
+});
+
 
 const ViolentCrimeSchema = new mongoose.Schema({
-	Assault: {
+	assault: {
 		simpleAssault: {
 			
 		},
@@ -99,37 +186,115 @@ const ViolentCrimeSchema = new mongoose.Schema({
 			
 		},
 	},
-	Murder: {
-		firstDegree: {
+	robbery: {
+		unarmedRobbery: {
+	
+		},
+		armedRobbery: {
+	
+		},
+		horsejacking: {
+	
+		},
+		homeInvasion: {
+	
+		},
+	},
+	kidnapping: {
+		politicalKidnapping: {
+	
+		},
+		ransomKidnapping: {
+	
+		},
+		kidnappingForRetribution: {
+	
+		},
+		ritualisticKidnapping: {
+	
+		},
+	},
+	
+	murder: {
+		manslaughter: {
+			
+		},
+		thirdDegree: {
 			
 		},
 		secondDegree: {
 			
 		},
-		manslaughter: {
+		firstDegree: {
 			
 		},
 	},
 });
 
 const PropertyCrimeSchema = new mongoose.Schema({
-	Sabotage: {
-		infrastructure: {
-			
+	theft: {
+        pettyLarceny: {
+
+        },
+        grandLarceny: {
+
+        },
+        propertyTheft: {
+
 		},
-		machinery: {
-			
+		animalTheft: {
+
 		},
-		transport: {
-			
-		},
-	},
+    },
+    burglary: {
+        residentialBurglary: {
+
+        },
+        commercialBurglary: {
+
+        },
+        saloonRobbery: {
+
+        },
+        bankRobbery: {
+
+        },
+    },
+    arson: {
+		accidentalArson: {
+
+        },
+        intentionalArson: {
+
+        },
+        arsonWithIntentToDefraud: {
+
+        },
+        wildlandArson: {
+
+        },
+    },
+    vandalism: {
+        defacement: {
+
+        },
+        fenceCutting: {
+
+        },
+        mineSabotage: {
+
+        },
+        wellPollution: {
+
+        },
+    },
+	
 });
 
 const Crime = mongoose.model("Crime", CrimeSchema);
 
 const FinancialCrime = Crime.discriminator("Financial", FinancialCrimeSchema);
 const ViolentCrime = Crime.discriminator("Violent", ViolentCrimeSchema);
-const ProptertyCrime = Crime.discriminator("Property", PropertyCrimeSchema);
-
-module.exports = { Crime, FinancialCrime, ViolentCrime, ProptertyCrime };
+const PropertyCrime = Crime.discriminator("Property", PropertyCrimeSchema);
+const ProductionCrime = Crime.discriminator("Production", ProductionCrimeSchema);
+module.exports = { Crime, FinancialCrime, ViolentCrime, PropertyCrime, ProductionCrime };

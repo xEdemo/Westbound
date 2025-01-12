@@ -3,7 +3,7 @@
 /**
  * @desc	Enum for crime schema
  */
-const crimeType = ["Financial", "Violent", "Property"];
+const crimeType = ["financial", "violent", "property", "production"];
 
 // End crime schema
 // Start item schema
@@ -19,7 +19,7 @@ const itemCategory = [
 	"armour",
 	"garments",
 	"medical",
-	"drugs",
+	"intoxicants",
 	"supplies",
 	"tools",
 	"materials",

@@ -141,6 +141,26 @@ const PropertySchema = new Schema(
 ); // TODO: relate to 4 bar system
 
 const AmenitiesSchema = new Schema({
+	// type: {
+	// 	type: String,
+	// 	enum: ["basic", "intermediate", "advanced", "luxury"]
+	// },
+	// item: {
+	// 	type: String,
+	// },
+	// description: {
+	// 	type: String,
+	// },
+	// buffs: {
+	// 	health: {
+	// 		type: Number,
+	// 	},
+	// },
+	// nerfs: {
+	// 	stamina: {
+	// 		type: Number,
+	// 	}
+	// },
 	// Basic Amenities (for simpler properties like tents and cabins)
 	basic: {
 		campfire: {
@@ -160,339 +180,337 @@ const AmenitiesSchema = new Schema({
 			nerfs: {
 				stamina: -1, // requires fuel and effort to maintain
 			},
-			waterSource: {
-				description: "A nearby water source like a well or stream.",
-				buffs: {
-					life: +2, // Provides warmth during cold nights
-				},
-				nerfs: {
-					stamina: -1, // requires fuel and effort to maintain
-				},
+		},
+		waterSource: {
+			description: "A nearby water source like a well or stream.",
+			buffs: {
+				life: +2, // Provides warmth during cold nights
 			},
-			fireplace: {
-				description: "A small hearth for warmth and cooking.",
-				buffs: {
-					life: +2, // Provides warmth during cold nights
-				},
-				nerfs: {
-					stamina: -1, // requires fuel and effort to maintain
-				},
+			nerfs: {
+				stamina: -1, // requires fuel and effort to maintain
 			},
-			basicFurniture: {
-				description: "Tables, chairs, and other basic furniture.",
-				buffs: {
-					life: +2, // Provides warmth during cold nights
-				},
-				nerfs: {
-					stamina: -1, // requires fuel and effort to maintain
-				},
+		},
+		fireplace: {
+			description: "A small hearth for warmth and cooking.",
+			buffs: {
+				life: +2, // Provides warmth during cold nights
 			},
-			storageChest: {
-				description: "For storing basic items.",
+			nerfs: {
+				stamina: -1, // requires fuel and effort to maintain
+			},
+		},
+		basicFurniture: {
+			description: "Tables, chairs, and other basic furniture.",
+			buffs: {
+				life: +2, // Provides warmth during cold nights
+			},
+			nerfs: {
+				stamina: -1, // requires fuel and effort to maintain
+			},
+		},
+		storageChest: {
+			description: "For storing basic items.",
+			buffs: {
+				life: +2, // Provides warmth during cold nights
+			},
+			nerfs: {
+				stamina: -1, // requires fuel and effort to maintain
+			},
+		},
+	},
+
+	// Intermediate Amenities (for properties like shacks, houses, and small ranches)
+	intermediate: {
+		woodStove: {
+			description: "A stove for cooking and heating.",
+			buffs: {
+				life: +2, // Provides warmth during cold nights
+			},
+			nerfs: {
+				stamina: -1, // requires fuel and effort to maintain
+			},
+			gardenPlot: {
+				description: "A small space for growing crops.",
 				buffs: {
-					life: +2, // Provides warmth during cold nights
+					foodSupply: 5, // Provides a small but steady food supply
 				},
 				nerfs: {
-					stamina: -1, // requires fuel and effort to maintain
+					space: -2, // Takes up valuable property space
 				},
 			},
 		},
-
-		// Intermediate Amenities (for properties like shacks, houses, and small ranches)
-		intermediate: {
-			woodStove: {
-				description: "A stove for cooking and heating.",
-				buffs: {
-					life: +2, // Provides warmth during cold nights
-				},
-				nerfs: {
-					stamina: -1, // requires fuel and effort to maintain
-				},
-				gardenPlot: {
-					description: "A small space for growing crops.",
-					buffs: {
-						foodSupply: 5, // Provides a small but steady food supply
-					},
-					nerfs: {
-						space: -2, // Takes up valuable property space
-					},
-				},
-				livestockPen: {
-					description:
-						"A pen for keeping small animals (chickens, goats, etc.).",
-					buffs: {
-						foodSupply: 10, // Provides meat and milk, increasing food security
-					},
-					nerfs: {
-						maintenance: -3, // Requires upkeep and care
-					},
-				},
-				stable: {
-					description: "A shelter for horses or other livestock.",
-					buffs: {
-						animalHealth: 5, // Ensures livestock stay healthy
-						mobility: 3, // Increases movement speed for any horses
-					},
-					nerfs: {
-						space: -2, // Takes up a considerable amount of space
-					},
-				},
-				outbuildings: {
-					description: "Additional storage or farming buildings.",
-					buffs: {
-						storageCapacity: 10, // Increases overall storage
-					},
-					nerfs: {
-						upkeep: -2, // Requires maintenance and repair
-					},
-				},
-				cistern: {
-					description:
-						"A system for collecting and storing rainwater.",
-					buffs: {
-						waterSupply: 5, // Provides additional water during dry spells
-					},
-					nerfs: {
-						capacity: -2, // Limited in size, requires frequent cleaning
-					},
-				},
-				furnitureUpgrade: {
-					description: "Better quality tables, chairs, and storage.",
-					buffs: {
-						comfort: 5, // Increases comfort and relaxation
-					},
-					nerfs: {
-						cost: -3, // Expensive to acquire and maintain
-					},
-				},
-				outhouse: {
-					description: "A small outdoor toilet.",
-					buffs: {
-						hygiene: 3, // Improves hygiene and sanitation
-					},
-					nerfs: {
-						comfort: -3, // Lacks indoor plumbing, uncomfortable
-					},
-				},
+		livestockPen: {
+			description:
+				"A pen for keeping small animals (chickens, goats, etc.).",
+			buffs: {
+				foodSupply: 10, // Provides meat and milk, increasing food security
 			},
-
-			// Advanced Amenities (for ranches, farms, and estates)
-			advanced: {
-				largeBarn: {
-					description:
-						"A spacious barn for livestock, tools, and storage.",
-					buffs: {
-						storageCapacity: 15, // Massive increase in storage space
-					},
-					nerfs: {
-						upkeep: -3, // High maintenance cost
-					},
-				},
-				waterWell: {
-					description:
-						"A self-sustaining well with a pump for consistent water supply.",
-					buffs: {
-						hydration: 10, // Consistent water supply
-					},
-					nerfs: {
-						upkeep: -2, // Requires periodic maintenance
-					},
-				},
-				corral: {
-					description: "A large fenced area for animals like cattle.",
-					buffs: {
-						animalHealth: 10, // Increased livestock health
-						foodSupply: 5, // Provides more space to keep cattle
-					},
-					nerfs: {
-						space: -3, // Takes up a significant amount of land area
-					},
-				},
-				workshop: {
-					description:
-						"A building or room for crafting, repairs, or business activities.",
-					buffs: {
-						craftingSpeed: 5, // Faster crafting and repairs
-					},
-					nerfs: {
-						space: -2, // Reduces available living space
-					},
-				},
-				animalFeedingSheds: {
-					description: "Shelters for feeding livestock.",
-					buffs: {
-						animalHealth: 5, // Increases livestock health
-					},
-					nerfs: {
-						upkeep: -2, // Requires maintenance and monitoring
-					},
-				},
-				greenhouse: {
-					description: "For growing crops in controlled conditions.",
-					buffs: {
-						foodSupply: 15, // Allows for year-round crop growth
-					},
-					nerfs: {
-						cost: -3, // Expensive to build and maintain
-					},
-				},
-				guestHouse: {
-					description: "A separate house for visitors or workers.",
-					buffs: {
-						hospitality: 10, // Increases ability to host guests or workers
-					},
-					nerfs: {
-						space: -3, // Takes up extra space on the property
-					},
-				},
-				laundryArea: {
-					description: "Space to wash clothes and linens.",
-					buffs: {
-						cleanliness: 5, // Increases cleanliness and hygiene
-					},
-					nerfs: {
-						space: -2, // Requires room that could be used for other things
-					},
-				},
-				tackRoom: {
-					description: "For storing horse gear and other tools.",
-					buffs: {
-						equipmentStorage: 5, // Better organization for tools and horse gear
-					},
-					nerfs: {
-						space: -2, // Takes up storage space
-					},
-				},
-				largeGarden: {
-					description:
-						"Extensive plots for growing crops, herbs, or vegetables.",
-					buffs: {
-						foodSupply: 20, // Increases available food production
-					},
-					nerfs: {
-						space: -4, // Takes up a lot of space on the property
-					},
-				},
+			nerfs: {
+				maintenance: -3, // Requires upkeep and care
 			},
+		},
+		stable: {
+			description: "A shelter for horses or other livestock.",
+			buffs: {
+				animalHealth: 5, // Ensures livestock stay healthy
+				mobility: 3, // Increases movement speed for any horses
+			},
+			nerfs: {
+				space: -2, // Takes up a considerable amount of space
+			},
+		},
+		outbuildings: {
+			description: "Additional storage or farming buildings.",
+			buffs: {
+				storageCapacity: 10, // Increases overall storage
+			},
+			nerfs: {
+				upkeep: -2, // Requires maintenance and repair
+			},
+		},
+		cistern: {
+			description: "A system for collecting and storing rainwater.",
+			buffs: {
+				waterSupply: 5, // Provides additional water during dry spells
+			},
+			nerfs: {
+				capacity: -2, // Limited in size, requires frequent cleaning
+			},
+		},
+		furnitureUpgrade: {
+			description: "Better quality tables, chairs, and storage.",
+			buffs: {
+				comfort: 5, // Increases comfort and relaxation
+			},
+			nerfs: {
+				cost: -3, // Expensive to acquire and maintain
+			},
+		},
+		outhouse: {
+			description: "A small outdoor toilet.",
+			buffs: {
+				hygiene: 3, // Improves hygiene and sanitation
+			},
+			nerfs: {
+				comfort: -3, // Lacks indoor plumbing, uncomfortable
+			},
+		},
+	},
 
-			// Luxury Amenities (for mansions and large estates)
-			luxury: {
-				privateLibrary: {
-					description: "A room full of books for study or leisure.",
-					buffs: {
-						knowledge: 5, // Increases learning or crafting efficiency
-					},
-					nerfs: {
-						space: -5, // Takes up a large portion of the property
-					},
-				},
-				ornateFurnishings: {
-					description:
-						"High-end furniture, including velvet chairs, fine wood tables, etc.",
-					buffs: {
-						comfort: 10, // Significantly increases comfort levels
-					},
-					nerfs: {
-						cost: -5, // Expensive to acquire and maintain
-					},
-				},
-				privateOffice: {
-					description:
-						"A dedicated space for business dealings or personal work.",
-					buffs: {
-						productivity: 5, // Increases income or crafting efficiency
-					},
-					nerfs: {
-						space: -3, // Takes away from the overall living area
-					},
-				},
-				trophyRoom: {
-					description:
-						"A room to display hunting trophies or valuable items.",
-					buffs: {
-						prestige: 10, // Increases the prestige of the property and owner
-					},
-					nerfs: {
-						space: -4, // Takes up a large room
-					},
-				},
-				lushGarden: {
-					description:
-						"A beautifully designed garden with flowers, shrubs, and trees.",
-					buffs: {
-						comfort: 15, // Enhances relaxation and adds aesthetic value
-					},
-					nerfs: {
-						upkeep: -3, // Requires regular maintenance
-					},
-				},
-				servantsQuarters: {
-					description: "Rooms or cabins for live-in staff.",
-					buffs: {
-						organization: 5, // Helps maintain the estate by housing staff
-					},
-					nerfs: {
-						space: -5, // Takes away from usable living space
-					},
-				},
-				armory: {
-					description:
-						"A room or building to store weapons, tools, and armor.",
-					buffs: {
-						security: 10, // Increases protection for the estate
-					},
-					nerfs: {
-						space: -3, // Takes up room, reducing available space
-					},
-				},
-				swimmingPool: {
-					description: "A luxury feature for relaxation and leisure.",
-					buffs: {
-						relaxation: 15, // Boosts overall relaxation and comfort
-					},
-					nerfs: {
-						cost: -4, // Expensive to build and maintain
-					},
-				},
-				coveredPorch: {
-					description:
-						"A large, comfortable porch or veranda for sitting outside.",
-					buffs: {
-						comfort: 10, // Adds relaxation and aesthetic value
-					},
-					nerfs: {
-						space: -3, // Takes up outdoor space
-					},
-				},
-				wineCellar: {
-					description:
-						"A cool, secure space for storing fine wines and spirits.",
-					buffs: {
-						luxury: 10, // Adds to the luxury feel of the property
-					},
-					nerfs: {
-						space: -3, // Takes away from usable property space
-					},
-				},
-				ballroom: {
-					description: "A grand hall for hosting parties and events.",
-					buffs: {
-						prestige: 20, // Significant increase to the estate's prestige
-					},
-					nerfs: {
-						space: -6, // Requires a large amount of space
-					},
-				},
-				entertainmentRoom: {
-					description:
-						"A space for playing games, cards, or even listening to music.",
-					buffs: {
-						morale: 10, // Increases overall enjoyment and happiness of residents
-					},
-					nerfs: {
-						space: -3, // Reduces available living space
-					},
-				},
+	// Advanced Amenities (for ranches, farms, and estates)
+	advanced: {
+		largeBarn: {
+			description: "A spacious barn for livestock, tools, and storage.",
+			buffs: {
+				storageCapacity: 15, // Massive increase in storage space
+			},
+			nerfs: {
+				upkeep: -3, // High maintenance cost
+			},
+		},
+		waterWell: {
+			description:
+				"A self-sustaining well with a pump for consistent water supply.",
+			buffs: {
+				hydration: 10, // Consistent water supply
+			},
+			nerfs: {
+				upkeep: -2, // Requires periodic maintenance
+			},
+		},
+		corral: {
+			description: "A large fenced area for animals like cattle.",
+			buffs: {
+				animalHealth: 10, // Increased livestock health
+				foodSupply: 5, // Provides more space to keep cattle
+			},
+			nerfs: {
+				space: -3, // Takes up a significant amount of land area
+			},
+		},
+		workshop: {
+			description:
+				"A building or room for crafting, repairs, or business activities.",
+			buffs: {
+				craftingSpeed: 5, // Faster crafting and repairs
+			},
+			nerfs: {
+				space: -2, // Reduces available living space
+			},
+		},
+		animalFeedingSheds: {
+			description: "Shelters for feeding livestock.",
+			buffs: {
+				animalHealth: 5, // Increases livestock health
+			},
+			nerfs: {
+				upkeep: -2, // Requires maintenance and monitoring
+			},
+		},
+		greenhouse: {
+			description: "For growing crops in controlled conditions.",
+			buffs: {
+				foodSupply: 15, // Allows for year-round crop growth
+			},
+			nerfs: {
+				cost: -3, // Expensive to build and maintain
+			},
+		},
+		guestHouse: {
+			description: "A separate house for visitors or workers.",
+			buffs: {
+				hospitality: 10, // Increases ability to host guests or workers
+			},
+			nerfs: {
+				space: -3, // Takes up extra space on the property
+			},
+		},
+		laundryArea: {
+			description: "Space to wash clothes and linens.",
+			buffs: {
+				cleanliness: 5, // Increases cleanliness and hygiene
+			},
+			nerfs: {
+				space: -2, // Requires room that could be used for other things
+			},
+		},
+		tackRoom: {
+			description: "For storing horse gear and other tools.",
+			buffs: {
+				equipmentStorage: 5, // Better organization for tools and horse gear
+			},
+			nerfs: {
+				space: -2, // Takes up storage space
+			},
+		},
+		largeGarden: {
+			description:
+				"Extensive plots for growing crops, herbs, or vegetables.",
+			buffs: {
+				foodSupply: 20, // Increases available food production
+			},
+			nerfs: {
+				space: -4, // Takes up a lot of space on the property
+			},
+		},
+	},
+
+	// Luxury Amenities (for mansions and large estates)
+	luxury: {
+		privateLibrary: {
+			description: "A room full of books for study or leisure.",
+			buffs: {
+				knowledge: 5, // Increases learning or crafting efficiency
+			},
+			nerfs: {
+				space: -5, // Takes up a large portion of the property
+			},
+		},
+		ornateFurnishings: {
+			description:
+				"High-end furniture, including velvet chairs, fine wood tables, etc.",
+			buffs: {
+				comfort: 10, // Significantly increases comfort levels
+			},
+			nerfs: {
+				cost: -5, // Expensive to acquire and maintain
+			},
+		},
+		privateOffice: {
+			description:
+				"A dedicated space for business dealings or personal work.",
+			buffs: {
+				productivity: 5, // Increases income or crafting efficiency
+			},
+			nerfs: {
+				space: -3, // Takes away from the overall living area
+			},
+		},
+		trophyRoom: {
+			description:
+				"A room to display hunting trophies or valuable items.",
+			buffs: {
+				prestige: 10, // Increases the prestige of the property and owner
+			},
+			nerfs: {
+				space: -4, // Takes up a large room
+			},
+		},
+		lushGarden: {
+			description:
+				"A beautifully designed garden with flowers, shrubs, and trees.",
+			buffs: {
+				comfort: 15, // Enhances relaxation and adds aesthetic value
+			},
+			nerfs: {
+				upkeep: -3, // Requires regular maintenance
+			},
+		},
+		servantsQuarters: {
+			description: "Rooms or cabins for live-in staff.",
+			buffs: {
+				organization: 5, // Helps maintain the estate by housing staff
+			},
+			nerfs: {
+				space: -5, // Takes away from usable living space
+			},
+		},
+		armory: {
+			description:
+				"A room or building to store weapons, tools, and armor.",
+			buffs: {
+				security: 10, // Increases protection for the estate
+			},
+			nerfs: {
+				space: -3, // Takes up room, reducing available space
+			},
+		},
+		swimmingPool: {
+			description: "A luxury feature for relaxation and leisure.",
+			buffs: {
+				relaxation: 15, // Boosts overall relaxation and comfort
+			},
+			nerfs: {
+				cost: -4, // Expensive to build and maintain
+			},
+		},
+		coveredPorch: {
+			description:
+				"A large, comfortable porch or veranda for sitting outside.",
+			buffs: {
+				comfort: 10, // Adds relaxation and aesthetic value
+			},
+			nerfs: {
+				space: -3, // Takes up outdoor space
+			},
+		},
+		wineCellar: {
+			description:
+				"A cool, secure space for storing fine wines and spirits.",
+			buffs: {
+				luxury: 10, // Adds to the luxury feel of the property
+			},
+			nerfs: {
+				space: -3, // Takes away from usable property space
+			},
+		},
+		ballroom: {
+			description: "A grand hall for hosting parties and events.",
+			buffs: {
+				prestige: 20, // Significant increase to the estate's prestige
+			},
+			nerfs: {
+				space: -6, // Requires a large amount of space
+			},
+		},
+		entertainmentRoom: {
+			description:
+				"A space for playing games, cards, or even listening to music.",
+			buffs: {
+				morale: 10, // Increases overall enjoyment and happiness of residents
+			},
+			nerfs: {
+				space: -3, // Reduces available living space
 			},
 		},
 	},

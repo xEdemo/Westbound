@@ -4,6 +4,7 @@ const LootTableSchema = new mongoose.Schema(
 	{
 		for: {
 			type: String,
+			unique: true,
 			required: true,
 		},
 		nothing: {
@@ -229,6 +230,7 @@ const PenaltyTableSchema = new mongoose.Schema(
 	{
 		for: {
 			type: String,
+			unique: true,
 			required: true,
 		},
 		fines: {

@@ -46,9 +46,29 @@ const CrimeSchema = new mongoose.Schema(
 			max: 100,
 			required: true,
 		},
-		staminaCost: {
+		focusCost: {
 			type: Number,
-			default: 5,
+			default: 2,
+		},
+		crimeXp: {
+			low: {
+				type: Number,
+				default: 10,
+			},
+			high: {
+				type: Number,
+				default: 15,
+			},
+		},
+		userXp: {
+			low: {
+				type: Number,
+				default: 15,
+			},
+			high: {
+				type: Number,
+				default: 20,
+			},
 		},
 	},
 	{
@@ -302,4 +322,5 @@ const FinancialCrime = Crime.discriminator("Financial", FinancialCrimeSchema);
 const ViolentCrime = Crime.discriminator("Violent", ViolentCrimeSchema);
 const PropertyCrime = Crime.discriminator("Property", PropertyCrimeSchema);
 const ProductionCrime = Crime.discriminator("Production", ProductionCrimeSchema);
+
 module.exports = { Crime, FinancialCrime, ViolentCrime, PropertyCrime, ProductionCrime };

@@ -130,10 +130,35 @@ const deleteUser = asyncHandler(async (req, res) => {
 	res.status(StatusCodes.OK).json({ msg: "User Deleted." });
 });
 
+/**
+ * @desc	Testing API for user levels
+ * @route	PUT /api/v1/user
+ * @access	Private --- Super Admin
+ */
+const addXpToUser = asyncHandler(async (req, res) => {
+	const userId = req.user._id.toString();
+
+	const user = await User.findById(userId);
+
+	if (!user) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(`No user found with id ${userId}.`);
+	}
+
+	//const crime = user.crime.find((c) => c.id.toString() === "6786f21c9c10566e4d30d40a");
+	//await user.updateCrimeLevel("6786f21c9c10566e4d30d40a");
+
+	//user.progression.xp += 170356920646;
+	//user.progression.xp += 10;
+	//await user.updateUserLevel();
+	res.status(StatusCodes.OK).json({ user })
+})
+
 module.exports = {
 	registerUser,
 	getUser,
 	authUser,
 	logoutUser,
 	deleteUser,
+	addXpToUser,
 };

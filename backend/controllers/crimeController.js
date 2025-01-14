@@ -65,7 +65,9 @@ const createCrime = asyncHandler(async (req, res) => {
 		penalty,
 		difficulty,
 		levelRequired,
-		staminaCost,
+		focusCost,
+		crimeXp,
+		userXp,
 	} = req.body;
 
 	// Parse nested fields if they are strings
@@ -86,6 +88,9 @@ const createCrime = asyncHandler(async (req, res) => {
 		typeof eternal === "string" ? JSON.parse(eternal) : eternal;
 	const parsedPenalty =
 		typeof penalty === "string" ? JSON.parse(penalty) : penalty;
+	const parsedCrimeXp =
+		typeof crimeXp === "string" ? JSON.parse(crimeXp) : crimeXp;
+	const parsedUserXp = "string" ? JSON.parse(userXp) : userXp;
 
 	if (
 		!name ||
@@ -242,7 +247,15 @@ const createCrime = asyncHandler(async (req, res) => {
 		penalty: penaltyTable._id,
 		difficulty,
 		levelRequired,
-		staminaCost,
+		focusCost,
+		crimeXp: {
+			low: parsedCrimeXp.low,
+			high: parsedCrimeXp.high,
+		},
+		userXp: {
+			low: parsedUserXp.low,
+			high: parsedUserXp.high,
+		},
 	});
 
 	await User.updateMany(
@@ -303,11 +316,11 @@ const deleteCrimeById = asyncHandler(async (req, res) => {
 	await User.updateMany(
 		{},
 		{
-		  $pull: {
-			crime: { id: crime._id },
-		  },
+			$pull: {
+				crime: { id: crime._id },
+			},
 		}
-	  );
+	);
 
 	await Crime.findByIdAndDelete(crimeId);
 

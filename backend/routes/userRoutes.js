@@ -9,9 +9,10 @@ const {
 	authUser,
 	logoutUser,
 	deleteUser,
+	addXpToUser,
 } = require("../controllers/userController.js");
 
-router.route("/").post(registerUser).get([protect], getUser);
+router.route("/").post(registerUser).get([protect], getUser).put([protect, superAdmin], addXpToUser);
 router.route("/auth").post(authUser);
 router.route("/logout").post([protect], logoutUser);
 router.route("/:userId").delete([protect, superAdmin], deleteUser);

@@ -25,7 +25,7 @@ const NpcSchema = new Schema ({
             enum: [""],
         },
         role: {
-            type: String,
+            type: [String],
             enum: ["quest giver", "store clerk", ""]
         },
         attackable: {

@@ -7,6 +7,9 @@ const StorefrontSchema = new Schema({
         required: true,
         unique: true,
     },
+    image: {
+        type: String,
+    },
     type: {
         type: String,
         enum: [''],

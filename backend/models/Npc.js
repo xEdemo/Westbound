@@ -30,7 +30,7 @@ const NpcSchema = new Schema(
 				enum: ["quest giver", "store clerk", ""],
 			},
 			attackable: {
-				type: boolean,
+				type: Boolean,
 			},
 		},
 		stats: {

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose"); //TODO: Add source var to all items as to where it can be located on various markets word to timbs
 
-const { itemCategory } = require("../utils/enum.js");
+const { itemCategory } = require("../../utils/enum.js");
 
 const ItemSchema = new mongoose.Schema(
 	// beginning of base Vars

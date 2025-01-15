@@ -91,6 +91,14 @@ const NpcSchema = new Schema ({
             type: String,
             // needs algo implemented
         }
-    }
+    },
     
+}, {
+    timestamps: true,
 });
+
+// Model based on Schema
+const Npc = mongoose.model('Npc', NpcSchema);
+
+// Export the model
+module.exports = Npc;

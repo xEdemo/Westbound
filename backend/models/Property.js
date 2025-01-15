@@ -554,6 +554,8 @@ const AmenitiesSchema = new Schema({
                 },
             },
         },
+},{
+    timestamps: true,
 });
 
 // Model based on Schema

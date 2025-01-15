@@ -322,5 +322,4 @@ const FinancialCrime = Crime.discriminator("Financial", FinancialCrimeSchema);
 const ViolentCrime = Crime.discriminator("Violent", ViolentCrimeSchema);
 const PropertyCrime = Crime.discriminator("Property", PropertyCrimeSchema);
 const ProductionCrime = Crime.discriminator("Production", ProductionCrimeSchema);
-
 module.exports = { Crime, FinancialCrime, ViolentCrime, PropertyCrime, ProductionCrime };

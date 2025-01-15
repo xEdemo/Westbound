@@ -43,6 +43,10 @@ const UserSchema = new mongoose.Schema(
 			enum: ["user", "admin", "superAdmin"],
 			default: "user",
 		},
+		bloodType: {
+			type: String,
+			enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], // Valid blood types
+		},
 		progression: {
 			level: {
 				type: Number,

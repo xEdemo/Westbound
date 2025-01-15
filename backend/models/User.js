@@ -16,8 +16,8 @@ const UserSchema = new mongoose.Schema(
 			minlength: 2,
 			maxlength: 20,
 			match: [
-				/^[A-Za-z0-9]+$/,
-				`Please provide a valid username. Usernames must be atleast three characters, no longer than 20 characters, and must not contain any special characters`,
+				/^[A-Za-z0-9]+(?:[-_][A-Za-z0-9]+)*$/,
+				`Username can only contain letters, numbers, dashes (-), and underscores (_) with no consecutive or ending symbols.`,
 			],
 			unique: true,
 		},

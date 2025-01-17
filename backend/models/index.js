@@ -8,8 +8,9 @@ const {
 } = require("./Crime.js");
 const Item = require("./Item/Item.js");
 const { LootTable, PenaltyTable } = require("./Item/LootAndPenaltyTable.js");
-const World = require("./World/World.js");
+const Country = require("./World/Country.js");
 const Npc = require("./Npc.js");
+const Bank = require("./World/Bank.js");
 
 module.exports = {
 	User,
@@ -21,6 +22,7 @@ module.exports = {
 	Item,
 	LootTable,
 	PenaltyTable,
-	World,
+	Country,
+	Bank,
 	Npc,
 };

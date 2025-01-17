@@ -13,13 +13,12 @@ const BankSchema = new Schema({
         },
         country: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "World",
+            ref: "Country",
         },
         state: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "World",
+            ref: "Country",
         },
-
         coordinates: {
             type: Number,
             required: true,

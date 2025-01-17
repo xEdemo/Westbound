@@ -34,11 +34,13 @@ app.use(express.urlencoded({ extended: true }));
 const userRouter = require("./routes/userRoutes.js");
 const crimeRouter = require("./routes/crimeRoutes.js");
 const itemRouter = require("./routes/itemRoutes.js");
+const countryRouter = require("./routes/countryRoutes.js");
 
 // Routes
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/crime", crimeRouter);
 app.use("/api/v1/item", itemRouter);
+app.use("/api/v1/country", countryRouter);
 
 // Error handlers
 app.use(notFound);

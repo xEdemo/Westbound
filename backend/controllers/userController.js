@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
 const { User, Crime } = require("../models");
 const { createJWT } = require("../config/createJWT.js");
+const { selectRandomBloodType } = require("../utils/bloodType.js");
 
 /**
  * @desc	Sign Up a new user
@@ -10,8 +11,14 @@ const { createJWT } = require("../config/createJWT.js");
  */
 const registerUser = asyncHandler(async (req, res) => {
 	const { username, email, password } = req.body;
-	const userEmailExists = await User.findOne({ email });
-	const userUsernameExists = await User.findOne({ username });
+
+	const normalizedUsername = username.toLowerCase();
+	const normalizedEmail = email.toLowerCase();
+
+	const userEmailExists = await User.findOne({ email: normalizedEmail });
+	const userUsernameExists = await User.findOne({
+		username: normalizedUsername,
+	});
 
 	if (userEmailExists) {
 		res.status(StatusCodes.BAD_REQUEST);
@@ -31,7 +38,15 @@ const registerUser = asyncHandler(async (req, res) => {
 		xp: 0,
 	}));
 
-	const user = await User.create({ username, email, password, crime });
+	const bloodType = selectRandomBloodType();
+
+	const user = await User.create({
+		username: normalizedUsername,
+		email: normalizedEmail,
+		password,
+		crime,
+		bloodType,
+	});
 
 	if (user) {
 		res.status(StatusCodes.CREATED).json({
@@ -39,11 +54,34 @@ const registerUser = asyncHandler(async (req, res) => {
 			username: user.username,
 			email: user.email,
 			crime,
+			bloodType,
 		});
 	} else {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error(`Invalid user data.`);
 	}
+});
+
+/**
+ * @desc	Get all usernames
+ * @route	Get /api/v1/user/usernames
+ * @access	Public
+ */
+const getAllUsernames = asyncHandler(async (req, res) => {
+	const users = await User.find({}, "username");
+	const usernames = users.map((user, index) => user.username);
+	res.status(StatusCodes.OK).json({ usernames });
+});
+
+/**
+ * @desc	Get all emails
+ * @route	Get /api/v1/user/emails
+ * @access	Public
+ */
+const getAllEmails = asyncHandler(async (req, res) => {
+	const users = await User.find({}, "email");
+	const emails = users.map((user, index) => user.email);
+	res.status(StatusCodes.OK).json({ emails });
 });
 
 /**
@@ -69,12 +107,15 @@ const getUser = asyncHandler(async (req, res) => {
  */
 const authUser = asyncHandler(async (req, res) => {
 	const { username, password } = req.body;
+
+	const normalizedUsername = username.toLowerCase();
+
 	if (!username || !password) {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error(`Please enter a username and password.`);
 	}
 
-	const user = await User.findOne({ username });
+	const user = await User.findOne({ username: normalizedUsername });
 
 	if (user && (await user.matchPassword(password))) {
 		createJWT(res, user._id);
@@ -82,7 +123,7 @@ const authUser = asyncHandler(async (req, res) => {
 		res.status(StatusCodes.OK).json({ username: user.username });
 	} else {
 		res.status(StatusCodes.UNAUTHORIZED);
-		throw new Error(`Invalid email or password.`);
+		throw new Error(`Invalid username or password.`);
 	}
 });
 
@@ -145,17 +186,21 @@ const addXpToUser = asyncHandler(async (req, res) => {
 		throw new Error(`No user found with id ${userId}.`);
 	}
 
+	//console.log(selectRandomBloodType())
+
 	//const crime = user.crime.find((c) => c.id.toString() === "6786f21c9c10566e4d30d40a");
 	//await user.updateCrimeLevel("6786f21c9c10566e4d30d40a");
 
 	//user.progression.xp += 170356920646;
 	//user.progression.xp += 10;
 	//await user.updateUserLevel();
-	res.status(StatusCodes.OK).json({ user })
-})
+	res.status(StatusCodes.OK).json({ user });
+});
 
 module.exports = {
 	registerUser,
+	getAllUsernames,
+	getAllEmails,
 	getUser,
 	authUser,
 	logoutUser,

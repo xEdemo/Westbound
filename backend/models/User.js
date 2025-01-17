@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
-const { calculateUserLevel, calculateCrimeLevel } = require("../utils/xpFormula.js");
+const {
+	calculateUserLevel,
+	calculateCrimeLevel,
+} = require("../utils/xpFormula.js");
 
 const maxUserXp = 170356920647;
 const maxUserLevel = 200;
@@ -46,6 +49,7 @@ const UserSchema = new mongoose.Schema(
 		bloodType: {
 			type: String,
 			enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], // Valid blood types
+			required: true,
 		},
 		progression: {
 			level: {
@@ -132,6 +136,12 @@ UserSchema.pre("save", async function (next) {
 	next();
 });
 
+// Convert username to lowercase before saving
+UserSchema.pre("save", function (next) {
+	this.username = this.username.toLowerCase();
+	next();
+});
+
 UserSchema.methods.updateUserLevel = async function () {
 	if (this.progression.xp > maxUserXp) {
 		this.progression.xp = maxUserXp;
@@ -164,31 +174,33 @@ UserSchema.methods.updateUserLevel = async function () {
 
 UserSchema.methods.updateCrimeLevel = async function (crimeId) {
 	// Find the specific crime in the user's crime array
-	const crime = this.crime.find((c) => c.id.toString() === crimeId.toString());
-  
+	const crime = this.crime.find(
+		(c) => c.id.toString() === crimeId.toString()
+	);
+
 	if (!crime) {
-	  throw new Error(`Crime with ID ${crimeId} not found.`);
+		throw new Error(`Crime with ID ${crimeId} not found.`);
 	}
 
 	if (crime.xp > maxCrimeXp) {
 		crime.xp = maxCrimeXp;
 	}
-  
+
 	// Calculate the new level using the current level
 	const newLevel = calculateCrimeLevel(crime.xp, crime.level);
 	const finalLevel = Math.min(newLevel, maxCrimeLevel);
 
 	const levelsGained = finalLevel - crime.level;
-  
+
 	if (levelsGained > 0) {
-	  // Adjust crime level
-	  crime.level = finalLevel;
-  
-	  // Add bonuses for leveling up a crime
+		// Adjust crime level
+		crime.level = finalLevel;
+
+		// Add bonuses for leveling up a crime
 	}
-  
+
 	await this.save();
-  };
+};
 
 UserSchema.methods.matchPassword = async function (enteredPassword) {
 	return await bcrypt.compare(enteredPassword, this.password);

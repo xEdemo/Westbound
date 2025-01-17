@@ -51,8 +51,14 @@ const HazardSchema = new Schema({
     timestamps: true,
 });
 
-// Model based on Schema
-const Hazard = mongoose.model('Hazard', HazardSchema);
+const MitigantSchema = new Schema({
 
-// Export the model
-module.exports = Hazard;
+
+});
+
+// Models based on Schema
+const Hazard = mongoose.model('Hazard', HazardSchema);
+const Mitigant = mongoose.model('Mitigant', MitigantSchema);
+
+// Export the models
+module.exports = {Hazard, Mitigant};

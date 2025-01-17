@@ -33,6 +33,10 @@ const WorldSchema = new Schema ({
                 min: 0,
                 max: 1000,
             },
+            banks: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Bank"
+            },
             towns: [{
                 type: String,
                 name: {

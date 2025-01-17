@@ -16,7 +16,6 @@ const CountrySchema = new Schema(
 			{
 				name: {
 					type: String,
-					unique: true,
 				},
 				description: {
 					type: String,
@@ -34,7 +33,6 @@ const CountrySchema = new Schema(
 					{
 						name: {
 							type: String,
-							unique: true,
 						},
 						description: {
 							type: String,

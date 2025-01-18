@@ -3,7 +3,12 @@
 /**
  * @desc	Enum for crime schema
  */
-const crimeType = ["financial", "violent", "property", "production"];
+const crimeType = [
+	"financial", 
+	"violent", 
+	"property", 
+	"production"
+];
 
 /**
  * @desc	Validator for crime schema
@@ -35,8 +40,22 @@ const itemCategory = [
 	"miscellaneous",
 ];
 
+// END item dchema
+// Start mine Schema
+
+const mineHazards = [
+	"Cave-In",
+	 "Gas Leak",
+	 "Rockfall", 
+	 "Flooding", 
+	];
+
 module.exports = {
+	//crimeSchema
 	crimeType,
 	crimeSubtype,
+	//itemSchema
 	itemCategory,
+	//mineSchema
+	mineHazards
 };

@@ -29,19 +29,15 @@ const MineSchema = new Schema({
     resources: {
         iron: {
             type: Number,
-            default: 0,
         },
         silver: {
             type: Number,
-            default: 1,
         },
         gold: {
             type: Number,
-            default: 2,
         },
         gems: {
             type: Number,
-            default: 3,
         },
     },
     hazards: [{

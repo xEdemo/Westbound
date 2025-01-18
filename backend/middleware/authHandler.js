@@ -23,7 +23,7 @@ const protect = asyncHandler(async (req, res, next) => {
 		}
 	} else {
 		res.status(StatusCodes.UNAUTHORIZED);
-		throw new Error("Not authorized. No token exists.");
+		throw new Error("Not authorized. No token exists. Login again.");
 	}
 });
 

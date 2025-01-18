@@ -7,6 +7,9 @@ const BankSchema = new Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+    },
     location: {     // ref to WorldJS
         type: {
             type: String,
@@ -45,6 +48,9 @@ const BankSchema = new Schema({
             "",
         ],
         default: "United States Government"
+    },
+    isBlackMarket: {
+        type: Boolean,
     },
 
 }, {

@@ -11,6 +11,7 @@ const { LootTable, PenaltyTable } = require("./Item/LootAndPenaltyTable.js");
 const Country = require("./World/Country.js");
 const Npc = require("./Npc.js");
 const Bank = require("./World/Bank.js");
+const Mine = require("./World/Mine.js")
 
 module.exports = {
 	User,
@@ -25,4 +26,5 @@ module.exports = {
 	Country,
 	Bank,
 	Npc,
+	Mine,
 };

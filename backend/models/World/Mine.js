@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const {mineHazards} = require ("../../utils/enum.js")
+const {mineHazards, minePositiveEventType, mineNegativeEventType,} = require ("../../utils/enum.js")
 
 // Mine Schema
 const MineSchema = new Schema({
@@ -40,6 +40,14 @@ const MineSchema = new Schema({
             type: Number,
         },
     },
+    currentYield: {         // granular vs aggregate tracking, ask steve
+        type: Number,
+        default: 0,         // aggre - simplicity / fast implementation
+    },                      // granular - more complex resource mangement
+    maxYield: {
+        type: Number,
+        required: true,
+    },
     hazards: [{
         type: String,
             enum: mineHazards
@@ -63,20 +71,66 @@ const MineSchema = new Schema({
         ],
     }],
     events: [{                                  // need to be linked to some type math + probability
-        positiveEventType: {
+        positiveEventType: {                    // TODO: add to enumJS
             type: String,
-            enum: [
-                "Gold Rush",
-                "Ore Vein Discovery",
-            ],
+            enum: minePositiveEventType
+            // enum: [
+            //     iron: [
+            //         "Ore Vein Discovery",		// iron
+            //         "High Yield Extraction",	// iron
+            //         "Dense Deposit",			// iron
+            //         "High Purity Ore",			// iron
+            //         ],
+            //         silver: [
+            //         "Ore Vein Discovery",		// silver
+            //         "Ore Vein Discovery",		// silver
+            //         "High Yield Extraction",	// silver
+            //         "High Purity Ore",			// silver
+            //         ],
+            //         gold: [
+            //         "Ore Vein Discovery",		// gold
+            //         "High Yield Extraction",	// gold
+            //         "",							// gold
+            //         "",							// gold
+            //         ],
+            //         gems: [
+            //         "Ore Vein Discovery",		// gems
+            //         "High Yield Extraction",	// gems
+            //         "",							// gems
+            //         "",							// gems
+            //         ],
+            // ],
         },  
-        negativeEventType: {
+        negativeEventType: {                // // TODO: add to enumJS
             type: String,
-            enum: [
-                "equipment Breakage",
-                "",
-                "",
-            ],
+            enum: mineNegativeEventType
+            // enum: [
+            //     iron: [
+            //         "Vein Collapse",			// iron
+            //         "Rockfall Incident",		// iron
+            //         "Ore Contamination",		// iron
+            //         "Flooding",					// iron
+            //         ],				
+            //         silver: [
+            //         "Vein Collapse",			// silver
+            //         "Rockfall Incident",		// silver
+            //         "Ore Contamination",		// silver
+            //         "Flooding",					// silver
+            //         "",							// silver
+            //         ],
+            //         gold: [
+            //         "Vein Collapse",			// gold
+            //         "Rockfall Incident",		// gold
+            //         "Ore Contamination",		// gold
+            //         "Flooding",					// gold
+            //         ],
+            //         gems: [
+            //         "Vein Collapse",			// gems
+            //         "Rockfall Incident",		// gems
+            //         "Ore Contamination",		// gems
+            //         "Flooding",					// gems
+            //         ],
+            // ],
         },
     }],
     npcInteraction: {
@@ -96,3 +150,4 @@ const Mine = mongoose.model('Mine', MineSchema);
 
 // Export the model
 module.exports = Mine;
+

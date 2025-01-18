@@ -49,6 +49,59 @@ const mineHazards = [
 	 "Rockfall", 
 	 "Flooding", 
 	];
+const minePositiveEventType = {		// how 2 implement properly?
+	iron: [
+	"Ore Vein Discovery",		// iron
+	"High Yield Extraction",	// iron
+	"Dense Deposit",			// iron
+	"High Purity Ore",			// iron
+	],
+	silver: [
+	"Ore Vein Discovery",		// silver
+	"Ore Vein Discovery",		// silver
+	"High Yield Extraction",	// silver
+	"High Purity Ore",			// silver
+	],
+	gold: [
+	"Ore Vein Discovery",		// gold
+	"High Yield Extraction",	// gold
+	"",							// gold
+	"",							// gold
+	],
+	gems: [
+	"Ore Vein Discovery",		// gems
+	"High Yield Extraction",	// gems
+	"",							// gems
+	"",							// gems
+	],
+}
+const mineNegativeEventType = {
+	iron: [
+	"Vein Collapse",			// iron
+	"Rockfall Incident",		// iron
+	"Ore Contamination",		// iron
+	"Flooding",					// iron
+	],				
+	silver: [
+	"Vein Collapse",			// silver
+	"Rockfall Incident",		// silver
+	"Ore Contamination",		// silver
+	"Flooding",					// silver
+	"",							// silver
+	],
+	gold: [
+	"Vein Collapse",			// gold
+	"Rockfall Incident",		// gold
+	"Ore Contamination",		// gold
+	"Flooding",					// gold
+	],
+	gems: [
+	"Vein Collapse",			// gems
+	"Rockfall Incident",		// gems
+	"Ore Contamination",		// gems
+	"Flooding",					// gems
+	],
+}
 
 module.exports = {
 	//crimeSchema
@@ -57,5 +110,7 @@ module.exports = {
 	//itemSchema
 	itemCategory,
 	//mineSchema
-	mineHazards
+	mineHazards,
+	minePositiveEventType,
+	mineNegativeEventType,
 };

@@ -1,0 +1,20 @@
+.landing-hero {
+	width: 100%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+.landing-image {
+	width: 100%;
+	height: auto;
+}
+
+.register-link {
+	position: absolute;
+	top: 35.2%; 
+	left: 42.2%;
+	width: 15.8%;
+	height: 3.6%;
+	cursor: pointer;
+}

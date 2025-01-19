@@ -1,0 +1,26 @@
+.login-background {
+	width: 100%;
+	height: 100%;
+	background-color: black;
+}
+
+.login-container {
+	width: 400px;
+	margin: 50px auto;
+	padding: 5px;
+	border: 4px solid var(--color-rustic-border);
+	background: var(--container-background);
+	border-radius: 12px;
+	box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.login-container > div {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 15px;
+}
+
+.login-container button {
+	width: 100%;
+	text-align: center;
+}

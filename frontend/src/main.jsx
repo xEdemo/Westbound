@@ -8,12 +8,17 @@ import {
 	RouterProvider,
 } from "react-router-dom";
 
-import { Home, Landing, Private } from "./pages";
+import store from "./store.js";
+import { Provider } from "react-redux";
+
+import { Home, Landing, Private, Register, Login } from "./pages";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/" element={<App />}>
 			<Route index={true} path="/" element={<Landing />} />
+			<Route path="/register" element={<Register />} />
+			<Route path="/login" element={<Login />} />
 			{/* Private Routes */}
 			<Route path="" element={<Private />}>
 				<Route path="/home" element={<Home />} />
@@ -23,5 +28,7 @@ const router = createBrowserRouter(
 );
 
 createRoot(document.getElementById("root")).render(
-	<RouterProvider router={router} />
+	<Provider store={store}>
+		<RouterProvider router={router} />
+	</Provider>
 );

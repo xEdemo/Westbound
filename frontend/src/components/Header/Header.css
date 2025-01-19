@@ -1,40 +1,59 @@
 .header-container {
-	height: 60px;
-	background-color: aqua;
+	height: 80px;
+	background: url("/src/assets/texture/dirt-png-43606.png"),
+		var(--container-background);
 	font-size: 1.4rem;
 	display: flex;
 	flex-direction: column;
 	position: relative;
+	border-bottom: 8px solid;
+	border-image-source: url("/src/assets/border/wood-border.png");
+	border-image-slice: 6;
+	border-image-repeat: round;
+	color: whitesmoke;
 }
 
-.header-container > a {
-	position: absolute;
-	cursor: pointer;
-}
-
-.header-upper,
-.header-lower {
-	width: 100%;
-	min-height: 30px;
+.header-layout {
 	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 72px;
+}
+
+.header-left,
+.header-right {
+	width: 50%;
+}
+
+.header-top-left,
+.header-bottom-left,
+.header-top-right,
+.header-bottom-right {
+	display: flex;
+	height: 32px;
+	align-items: center;
+	padding: 0px 4px;
 	gap: 10px;
 }
 
-.header-upper {
-	justify-content: end;
+.header-top-right,
+.header-bottom-right {
+	justify-content: flex-end;
+}
+
+.header-top-left,
+.header-top-right {
 	border-bottom: 1px solid black;
-	padding-right: 10px;
 }
 
-.header-container > ul > li {
-	height: 30px;
+.user-header-image-container {
+	height: 32px;
+	position: relative;
 }
 
-.header-upper ul li a {
-	display: block;
-	height: 30px;
-}
-
-.header-upper li a:hover {
+.user-header-image-container img {
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
 	cursor: pointer;
 }

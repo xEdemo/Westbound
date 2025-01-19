@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=IM+Fell+Great+Primer+SC&family=Rye&display=swap");
 
 /* Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property */
 *:where(:not(iframe, canvas, img, svg, video):not(svg *)) {
@@ -38,12 +38,54 @@ textarea {
 }
 
 :root {
-	font-family: "EB Garamond", sans-serif;
+	font-family: "IM Fell Great Primer SC", sans-serif;
 	line-height: 1.75;
 	font-weight: 400;
 	font-size: 62.5%;
+	color: var(--color-text-primary);
+	color: whitesmoke;
 
 	background-color: burlywood;
+	--container-background: linear-gradient(0deg, rgba(30, 30, 28, 1) 0%, rgba(49, 49, 46, 1) 100%);
+
+	/* Primary Colors */
+	--color-parchment: #f9f4e7;
+	--color-dark-brown: #4a2c12;
+	--color-rustic-border: #8b5e34;
+	--color-accent: #704214;
+
+	/* Feedback Colors */
+	--color-error: #a83232;
+	--color-success: #3c763d;
+
+	/* Text Colors */
+	--color-text-primary: var(--color-dark-brown);
+	--color-text-secondary: #8b5e34;
+
+	/* Button Colors */
+	--color-button-bg: var(--color-rustic-border);
+	--color-button-hover: var(--color-accent);
+	--color-button-text: #ffffff;
+}
+
+a,
+p,
+input,
+label,
+button {
+	font-size: 1.4rem;
+	font-weight: 400;
+}
+
+button {
+	padding: 2px 4px;
+	border-radius: 5px;
+	background-color: var(--color-button-bg);
+	transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+	background-color: var(--color-button-hover);
 }
 
 input[type="checkbox"] {
@@ -52,4 +94,57 @@ input[type="checkbox"] {
 
 input[type="radio"] {
 	appearance: radio;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+	padding: 0px 3px;
+	border: 2px solid var(--color-rustic-border);
+	border-radius: 5px;
+	background-color: var(--color-parchment);
+	color: #4a2c12;
+	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 900;
+}
+
+h6 {
+	font-size: 1.6rem;
+}
+
+h5 {
+	font-size: 1.65rem;
+}
+
+h4 {
+	font-size: 1.7rem;
+}
+
+h3 {
+	font-size: 1.75rem;
+}
+
+h2 {
+	font-size: 1.8rem;
+}
+
+h1 {
+	font-size: 1.9rem;
+}
+
+a {
+	cursor: pointer;
+	transition: opacity 0.3s ease-in-out;
+}
+
+a:hover {
+	opacity: 0.85;
+}
+
+button {
+	cursor: pointer;
 }

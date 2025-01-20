@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Bank Schema
+// Bank Schema                                      //TODO: ADD ALL TO ENUMJS
 const BankSchema = new Schema({
     name: {
         type: String,
@@ -52,6 +52,50 @@ const BankSchema = new Schema({
     isBlackMarket: {
         type: Boolean,
     },
+    interestRate: {
+        savings: {
+            type: Number,
+        },
+        checking: {
+            type: Number,
+        },
+        loans: {
+            type: Number,
+        },
+
+    },
+    transactionFee: {           // varying aspect idk im not a bank guy
+        type: Number,
+    },
+    accounts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "BankAccount"
+    }],
+    loanRecords: [
+        {
+            borrower: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+            amountBorrowed: {
+                type: Number,
+                
+            },
+            interestRate: {
+                type: Number,
+                
+            },
+            dueDate: {
+                type: Date,
+            },
+            status: {           // TODO: needs to be added to ENUMJS
+                type: String,
+                enum: ["Active", "Repaid", "Defaulted"],
+                default: "Active",
+            },
+        },
+    ],
+
 
 }, {
     timestamps: true,

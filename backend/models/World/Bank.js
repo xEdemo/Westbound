@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 // Bank Schema                                      //TODO: ADD ALL TO ENUMJS
 const BankSchema = new Schema({
     name: {
-        type: String,
+        type: String,                   /// where does this ref BankAccountSchema
         required: true,
     },
     description: {
@@ -106,3 +106,12 @@ const Bank = mongoose.model('Bank', BankSchema);
 
 // Export the model
 module.exports = Bank;
+
+// things to consider
+// - banks might send bounty hunters to reposess assets from players who default on loans
+// - bank takes a percentage every transaction
+// - fee deductions need to be logged seperately in transaction history
+// - expansion for gold reserves in certain banks
+// - different tiers of accounts
+// - a way to rob a bank, tjhat triggers a wanted status that then affects reputation system idk
+// - bank needs an image baseVar 

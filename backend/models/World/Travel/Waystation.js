@@ -15,7 +15,7 @@ const WaystationSchema = new mongoose.Schema({
         },
     },
     type: {
-        type: String,       /// possibly array
+        type: [String],       /// possibly array
         enum: [
             "",
             "",

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // stockCompanySchema                   TODO: ADD whatever to ENUMJS
 
-const stockCompanySchema = new Schema({
+const StockCompanySchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -44,7 +44,7 @@ const stockCompanySchema = new Schema({
 
 // StochSchema
 
-const stockSchema = new Schema({
+const StockSchema = new Schema({
     company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'stockCompany',
@@ -97,7 +97,7 @@ const stockSchema = new Schema({
 });
 
 // marketDataSchema         // market Stats, TODO: Implement further logging
-const marketDataSchema = new Schema({
+const MarketDataSchema = new Schema({
     indexName: {
         type: String, // possible enum of different stock market indexs - for now just One but easy to upscale
     },
@@ -119,7 +119,7 @@ const marketDataSchema = new Schema({
 
 // transactionSchema
 
-const transactionSchema = new Schema({
+const TransactionSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -151,7 +151,7 @@ const transactionSchema = new Schema({
 })
 // portfolioSchema
 // Portfolio Schema
-const portfolioSchema = new Schema({
+const PortfolioSchema = new Schema({
     player: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Player',   // Reference to who owns the portfolio
@@ -228,8 +228,8 @@ const portfolioSchema = new Schema({
     }]
 }, { timestamps: true });
 
-module.exports = mongoose.model('stockCompany', stockCompanySchema);
-module.exports = mongoose.model('stock', stockSchema);
-module.exports = mongoose.model('transaction', transactionSchema);
-module.exports = mongoose.model('marketData', marketDataSchema);
-module.exports = mongoose.model('Portfolio', portfolioSchema);
+module.exports = mongoose.model('StockCompany', StockCompanySchema);
+module.exports = mongoose.model('Stock', StockSchema);
+module.exports = mongoose.model('Transaction', TransactionSchema);
+module.exports = mongoose.model('MarketData', MarketDataSchema);
+module.exports = mongoose.model('Portfolio', PortfolioSchema);

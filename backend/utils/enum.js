@@ -38,7 +38,7 @@ const itemCategory = [
 // END item Schema
 // START waystation Schema
 
-const waystationType = [
+const waystationTypes = [
 	"",
 	"",
 	"",

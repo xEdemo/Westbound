@@ -9,7 +9,7 @@ const StockCompanySchema = new Schema({
         required: true,
         unique: true,
     },
-    logo: {             // path to image
+    image: {             // path to image
         type: String
     },
     tickerSymbol: {
@@ -17,7 +17,7 @@ const StockCompanySchema = new Schema({
         required: true,
         unique: true,
     },
-    sector: {
+    sector: {               // what sector are these fuckers located type rappity
         type: String,
         requied: true,
     },
@@ -37,12 +37,15 @@ const StockCompanySchema = new Schema({
         type: Number,
         required: true,
     },
+    stockExchange: {        // which exchange are these fuckers affiliated with GOOD 4 UPSCALING - not reqqed for singular use
+        type: String,
+    },
 
 
 
 });
 
-// StochSchema
+// StockSchema
 
 const StockSchema = new Schema({
     company: {

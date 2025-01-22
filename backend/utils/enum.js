@@ -35,9 +35,29 @@ const itemCategory = [
 	"miscellaneous",
 ];
 
-// END item dchema
-// Start mine Schema
+// END item Schema
+// START waystation Schema
 
+const waystationType = [
+	"",
+	"",
+	"",
+];
+const waystationHazards = [
+	"",
+	"",
+	"",
+];
+
+
+//END waystation Schema 
+//START bank Schema
+
+//END bank Schema
+// Start mine Schema
+/**
+ * @desc	Enum for mine schema
+ */
 const mineTypeOfMine = ["iron", "silver", "gold", "gem"];
 
 const mineHazards = ["Cave-In", "Gas Leak", "Rockfall", "Flooding"];
@@ -103,4 +123,7 @@ module.exports = {
 	mineHazards,
 	minePositiveEventType,
 	mineNegativeEventType,
+	// waystationSchema
+	waystationTypes,
+	waystationHazards,
 };

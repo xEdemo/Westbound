@@ -1,0 +1,13 @@
+FRONTEND
+
+TODO:
+
+
+
+BACKEND
+
+TODO:
+
+- refactor property and amenityJS
+- complete skeleton for MarketJS
+- refactor imports/exports for the moving of Amenity and Property

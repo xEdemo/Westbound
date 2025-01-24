@@ -29,7 +29,7 @@ const MineSchema = new Schema(
 			required: true,
 		},
 		location: {
-			type: Schema.Types.ObjectId, // needs to ref fuckin states or country or whatever
+			type: Schema.Types.ObjectId, // needs to ref fuckin town or country or whatever
 			ref: "Country",
 			required: true,
 		},
@@ -74,15 +74,20 @@ const MineSchema = new Schema(
 			type: Number,
 			required: true,
 		},
+        depths: [{
+            equipmentRequired: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Item'
+                // candle, enum with Ids eventually required
+            },
+            depth: {
+                type: Number,       // need validation for maxDepth
+            },
+
+        }],
 		hazards: {
 			type: [String],
 			enum: mineHazards,
-			// enum: [
-			//     "Cave-In",
-			//      "Gas Leak",
-			//      "Rockfall",
-			//      "Flooding",
-			//     ],
 			required: true,
 		},
 		maxDepth: {
@@ -98,66 +103,11 @@ const MineSchema = new Schema(
 		events: {
 			// need to be linked to some type math + probability
 			positiveEventType: {
-				// TODO: add to enumJS
 				type: [String],
-				// enum: [
-				//     iron: [
-				//         "Ore Vein Discovery",		// iron
-				//         "High Yield Extraction",	// iron
-				//         "Dense Deposit",			// iron
-				//         "High Purity Ore",			// iron
-				//         ],
-				//         silver: [
-				//         "Ore Vein Discovery",		// silver
-				//         "Ore Vein Discovery",		// silver
-				//         "High Yield Extraction",	// silver
-				//         "High Purity Ore",			// silver
-				//         ],
-				//         gold: [
-				//         "Ore Vein Discovery",		// gold
-				//         "High Yield Extraction",	// gold
-				//         "",							// gold
-				//         "",							// gold
-				//         ],
-				//         gems: [
-				//         "Ore Vein Discovery",		// gems
-				//         "High Yield Extraction",	// gems
-				//         "",							// gems
-				//         "",							// gems
-				//         ],
-				// ],
 				required: true,
 			},
 			negativeEventType: {
-				// // TODO: add to enumJS
 				type: [String],
-				// enum: [
-				//     iron: [
-				//         "Vein Collapse",			// iron
-				//         "Rockfall Incident",		// iron
-				//         "Ore Contamination",		// iron
-				//         "Flooding",					// iron
-				//         ],
-				//         silver: [
-				//         "Vein Collapse",			// silver
-				//         "Rockfall Incident",		// silver
-				//         "Ore Contamination",		// silver
-				//         "Flooding",					// silver
-				//         "",							// silver
-				//         ],
-				//         gold: [
-				//         "Vein Collapse",			// gold
-				//         "Rockfall Incident",		// gold
-				//         "Ore Contamination",		// gold
-				//         "Flooding",					// gold
-				//         ],
-				//         gems: [
-				//         "Vein Collapse",			// gems
-				//         "Rockfall Incident",		// gems
-				//         "Ore Contamination",		// gems
-				//         "Flooding",					// gems
-				//         ],
-				// ],
 				required: true,
 			},
 		},

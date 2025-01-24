@@ -2,6 +2,13 @@ FRONTEND
 
 TODO:
 
+- create chat component and add to layout component
+- add currencies to sidebar
+- create dropdowns for each category in the sidebar
+- start home page that will display user data
+- add more routes and add them to the navigation section of the sidebar
+- plan header layout (search function? for user lookup, notifications)
+- determine what routes will be accessable when traveling with nested routes in main.jsx
 
 
 BACKEND

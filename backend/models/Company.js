@@ -83,4 +83,12 @@ const CompanySchema = new Schema({
     },
 
 
-});
+},
+{ timestamps: true }
+);
+
+// Model based on Schema
+const Company = mongoose.model("Company", CompanySchema);
+
+// Export the model
+module.exports = Company;

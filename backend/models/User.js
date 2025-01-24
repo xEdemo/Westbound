@@ -63,8 +63,18 @@ const UserSchema = new mongoose.Schema(
 				default: 250,
 				max: maxUserXp,
 			},
+			networth: {
+				type: Number,
+				default: 0,
+			},
 		},
-		bars: {
+		currencies: {
+			greenbacks: {
+				type: Number,
+				default: 0,
+			},
+		},
+		attributes: {
 			health: {
 				softCap: {
 					type: Number,
@@ -75,24 +85,24 @@ const UserSchema = new mongoose.Schema(
 					default: 100,
 				},
 			},
-			stamina: {
+			resolve: {
 				softCap: {
 					type: Number,
-					default: 100,
+					default: 30,
 				},
 				current: {
 					type: Number,
-					default: 100,
+					default: 30,
 				},
 			},
-			focus: {
+			endurance: {
 				softCap: {
 					type: Number,
-					default: 30,
+					default: 100,
 				},
 				current: {
 					type: Number,
-					default: 30,
+					default: 100,
 				},
 			},
 			reputation: {
@@ -157,13 +167,13 @@ UserSchema.methods.updateUserLevel = async function () {
 	const levelsGained = finalLevel - oldLevel;
 
 	if (levelsGained > 0) {
-		this.bars.focus.softCap += 2 * levelsGained;
-		this.bars.stamina.softCap += 5 * levelsGained;
-		this.bars.health.softCap += 100 * levelsGained;
-		// Refill bars on level
-		this.bars.focus.current = this.bars.focus.softCap;
-		this.bars.stamina.current = this.bars.stamina.softCap;
-		this.bars.health.current = this.bars.health.softCap;
+		this.attributes.health.softCap += 100 * levelsGained;
+		this.attributes.resolve.softCap += 2 * levelsGained;
+		this.attributes.endurance.softCap += 5 * levelsGained;
+		// Refill attributes on level
+		this.attributes.health.current = this.attributes.health.softCap;
+		this.attributes.resolve.current = this.attributes.resolve.softCap;
+		this.attributes.endurance.current = this.attributes.endurance.softCap;
 	}
 
 	this.progression.level = finalLevel;

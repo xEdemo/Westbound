@@ -14,6 +14,8 @@ import "./components/Header/Header.css";
 import "./components/ImageSlider/ImageSlider.css";
 import "./components/Loading/Loading.css";
 import "./components/Dropdown/Dropdown.css";
+import "./components/Sidebar/Sidebar.css";
+import "./components/ProgressBar/ProgressBar.css";
 
 // Pages CSS
 import "./pages/Landing/Landing.css";

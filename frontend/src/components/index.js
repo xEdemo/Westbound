@@ -3,6 +3,8 @@ import Header from "./Header/Header.jsx";
 import ImageSlider from "./ImageSlider/ImageSlider.jsx";
 import Loading from "./Loading/Loading.jsx";
 import Dropdown from "./Dropdown/Dropdown.jsx";
+import Sidebar from "./Sidebar/Sidebar.jsx";
+import ProgressBar from "./ProgressBar/ProgressBar.jsx";
 
 export {
 	Layout,
@@ -10,4 +12,6 @@ export {
 	ImageSlider,
 	Loading,
 	Dropdown,
+	Sidebar,
+	ProgressBar,
 }

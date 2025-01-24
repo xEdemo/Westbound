@@ -1,0 +1,48 @@
+.sidebar-container {
+	line-height: normal;
+	width: 150px;
+	height: calc(100vh - 80px);
+	background-color: rgba(0, 0, 0, 0.4);
+	overflow-y: auto;
+	position: relative;
+}
+
+.sidebar-toggle-btn {
+	cursor: pointer;
+	position: absolute;
+	top: 2px;
+	right: 2px;
+}
+
+.siderbar-progress-bar {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 2px;
+}
+
+.sidebar-div-open {
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+}
+
+.sidebar-div-open > p,
+.sidebar-div-open > h6 {
+	padding-left: 4px;
+}
+
+.sidebar-div-open > p > span {
+	font-family: var(--number-font);
+}
+
+.closed-sidebar {
+	margin-left: 100px;
+	padding-left: 2px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.closed-siderbar-icon {
+	margin: 2px auto 0px;
+}

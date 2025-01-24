@@ -6,9 +6,13 @@ const Home = () => {
 		(state) => state.user
 	);
 
-	return <Layout>
-		<p>Home page</p>
-	</Layout>;
+	return (
+		<Layout>
+			<div>
+				<p>Home page</p>
+			</div>
+		</Layout>
+	);
 };
 
 export default Home;

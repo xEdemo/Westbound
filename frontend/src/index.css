@@ -66,6 +66,9 @@ textarea {
 	--color-button-bg: var(--color-rustic-border);
 	--color-button-hover: var(--color-accent);
 	--color-button-text: #ffffff;
+
+	/* Numbers */
+	--number-font: 'Courier New', Courier, monospace;
 }
 
 a,
@@ -147,4 +150,27 @@ a:hover {
 
 button {
 	cursor: pointer;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+	height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-button-bg);
+    border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-button-hover);
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--theme-grey-500);
 }

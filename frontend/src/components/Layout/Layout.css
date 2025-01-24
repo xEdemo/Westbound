@@ -3,5 +3,17 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
+	overflow-y: hidden;
+}
+
+.layout-main {
+	display: flex;
+	position: relative;
+}
+
+.content {
+	padding: 5px;
+	transition: margin-left 0.3s ease;
 	overflow-y: auto;
+	overflow-x: hidden;
 }

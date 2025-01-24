@@ -186,14 +186,12 @@ const addXpToUser = asyncHandler(async (req, res) => {
 		throw new Error(`No user found with id ${userId}.`);
 	}
 
-	//console.log(selectRandomBloodType())
-
 	//const crime = user.crime.find((c) => c.id.toString() === "6786f21c9c10566e4d30d40a");
 	//await user.updateCrimeLevel("6786f21c9c10566e4d30d40a");
 
 	//user.progression.xp += 170356920646;
-	//user.progression.xp += 10;
-	//await user.updateUserLevel();
+	user.progression.xp += 31;
+	await user.updateUserLevel();
 	res.status(StatusCodes.OK).json({ user });
 });
 

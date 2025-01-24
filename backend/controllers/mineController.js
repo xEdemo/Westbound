@@ -1,4 +1,4 @@
-const asyncHandler = require("express-async-handler");
+ const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
 const { Mine } = require("../models");
 const {

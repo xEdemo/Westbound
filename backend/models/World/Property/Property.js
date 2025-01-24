@@ -33,6 +33,36 @@ const PropertySchema = new Schema(
 				type: Number,
 				default: 80,
 			},
+			marketValue: {
+				currentValue: {
+					type: Number,
+				},
+				purchases: [{
+					purchasedFrom: {
+						type: mongoose.Schema.Types.ObjectId,
+                        ref: "User",
+					},
+                    purchaser: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "User",
+                    },
+                    price: {
+                        type: Number,
+                    },
+                    date: {
+                        type: Date,
+                    },
+				}],
+				dailyChange: {
+                    type: Number,
+                },
+                monthlyChange: {
+                    type: Number,
+                },
+                yearlyChange: {
+                    type: Number,
+                }
+			},
 		},
 		description: {
 			type: String,
@@ -40,7 +70,7 @@ const PropertySchema = new Schema(
 		},
 		location: {
 			type: mongoose.Schema.Types.ObjectId,
-            ref: "Town",
+			ref: "Town",
 		},
 		amenities: {
 			type: [mongoose.Schema.Types.ObjectId],

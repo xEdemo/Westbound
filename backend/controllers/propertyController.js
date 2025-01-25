@@ -104,7 +104,7 @@ const deletePropertyById = asyncHandler(async( req, res) => {
 
     await property.deleteOne();
 
-    res.status(StatuscOdes.OK).json({
+    res.status(StatusCodes.OK).json({
         msg: `${property.name} with ID ${propertyId} successfully deleted`
     });
 });

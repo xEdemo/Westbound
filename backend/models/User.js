@@ -63,9 +63,23 @@ const UserSchema = new mongoose.Schema(
 				default: 250,
 				max: maxUserXp,
 			},
-			networth: {
-				type: Number,
-				default: 0,
+			netWorth: {
+				current: {
+					type: Number,
+					default: 0,
+				},
+				dailyChange: [{
+					day: {
+						type: Date,
+					},
+					change: {
+						type: Number,
+					}
+				}],
+				lastNetWorthUpdate: {
+					type: Date,
+					default: null,
+				},
 			},
 		},
 		currencies: {
@@ -73,6 +87,18 @@ const UserSchema = new mongoose.Schema(
 				type: Number,
 				default: 0,
 			},
+			silverDollars: {
+				type: Number,
+				default: 0,
+			}
+		},
+		properties: {
+			type: [mongoose.Schema.Types.ObjectId],
+			ref: "Property",
+		},
+		inventory: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Inventory"
 		},
 		attributes: {
 			health: {

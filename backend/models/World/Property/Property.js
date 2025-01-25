@@ -37,31 +37,60 @@ const PropertySchema = new Schema(
 				currentValue: {
 					type: Number,
 				},
-				purchases: [{
-					purchasedFrom: {
-						type: mongoose.Schema.Types.ObjectId,
-                        ref: "User",
+				purchases: [
+					{
+						purchasedFrom: {
+							type: mongoose.Schema.Types.ObjectId,
+							ref: "User",
+						},
+						purchaser: {
+							type: mongoose.Schema.Types.ObjectId,
+							ref: "User",
+						},
+						price: {
+							type: Number,
+						},
+						date: {
+							type: Date,
+						},
 					},
-                    purchaser: {
-                        type: mongoose.Schema.Types.ObjectId,
-                        ref: "User",
-                    },
-                    price: {
-                        type: Number,
-                    },
-                    date: {
-                        type: Date,
-                    },
-				}],
-				dailyChange: {
-                    type: Number,
-                },
-                monthlyChange: {
-                    type: Number,
-                },
-                yearlyChange: {
-                    type: Number,
-                }
+				],
+				dailyChange: [
+					{
+						day: {
+							type: Date,
+							default: () => new Date().toISOString(),
+						},
+						change: {
+							type: Number,
+							default: 0,
+						},
+					},
+				],
+				monthlyChange: [
+					{
+						day: {
+							type: Date,
+							default: () => new Date().toISOString(),
+						},
+						change: {
+							type: Number,
+							default: 0,
+						},
+					},
+				],
+				yearlyChange: [
+					{
+						day: {
+							type: Date,
+							default: () => new Date().toISOString(),
+						},
+						change: {
+							type: Number,
+							default: 0,
+						},
+					},
+				],
 			},
 		},
 		description: {
@@ -82,10 +111,10 @@ const PropertySchema = new Schema(
 		},
 		isForSale: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 		owner: {
-			type: Schema.Types.ObjectId,
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 		},
 		history: [
@@ -100,7 +129,7 @@ const PropertySchema = new Schema(
 				},
 				transferDate: {
 					type: Date,
-					default: () => new Date.now().toISOString(),
+					default: () => new Date().toISOString(),
 				},
 			},
 		],
@@ -108,7 +137,6 @@ const PropertySchema = new Schema(
 	{ timestamps: true }
 );
 
-// Model based on Schema
 const Property = mongoose.model("Property", PropertySchema);
 
 // Export the model

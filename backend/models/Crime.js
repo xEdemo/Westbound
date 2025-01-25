@@ -318,8 +318,8 @@ const PropertyCrimeSchema = new mongoose.Schema({
 
 const Crime = mongoose.model("Crime", CrimeSchema);
 
-const FinancialCrime = Crime.discriminator("Financial", FinancialCrimeSchema);
-const ViolentCrime = Crime.discriminator("Violent", ViolentCrimeSchema);
-const PropertyCrime = Crime.discriminator("Property", PropertyCrimeSchema);
-const ProductionCrime = Crime.discriminator("Production", ProductionCrimeSchema);
+const FinancialCrime = Crime.discriminator("FinancialCrime", FinancialCrimeSchema);
+const ViolentCrime = Crime.discriminator("ViolentCrime", ViolentCrimeSchema);
+const PropertyCrime = Crime.discriminator("PropertyCrime", PropertyCrimeSchema);
+const ProductionCrime = Crime.discriminator("ProductionCrime", ProductionCrimeSchema);
 module.exports = { Crime, FinancialCrime, ViolentCrime, PropertyCrime, ProductionCrime };

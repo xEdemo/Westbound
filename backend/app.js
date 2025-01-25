@@ -1,6 +1,8 @@
 require("dotenv").config();
 require("express-async-errors");
 
+const initializeSchedules = require("./schedules");
+
 const express = require("express");
 const app = express();
 
@@ -43,6 +45,9 @@ app.use("/api/v1/crime", crimeRouter);
 app.use("/api/v1/item", itemRouter);
 app.use("/api/v1/country", countryRouter);
 app.use("/api/v1/mine", mineRouter);
+
+// Initialize schedules
+initializeSchedules();
 
 // Error handlers
 app.use(notFound);

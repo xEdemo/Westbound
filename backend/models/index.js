@@ -13,6 +13,7 @@ const Npc = require("./Npc.js");
 const Bank = require("./World/Bank.js");
 const Mine = require("./World/Mine.js");
 const Hospital = require("./World/Travel/Hospital.js");
+const Property = require("./World/Property/Property.js");
 
 module.exports = {
 	User,
@@ -29,4 +30,5 @@ module.exports = {
 	Npc,
 	Mine,
 	Hospital,
+	Property,
 };

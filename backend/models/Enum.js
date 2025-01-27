@@ -7,10 +7,7 @@ const EnumCategorySchema = new mongoose.Schema(
 			required: true,
 			unique: true,
 			trim: true,
-			match: [
-				/^[a-z][A-Za-z]*$/,
-				`Name field must be camel cased.`
-			]
+			match: [/^[a-z][A-Za-z]*$/, `Name field must be camel cased.`],
 		},
 		createdBy: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -51,16 +48,21 @@ const EnumSchema = new mongoose.Schema(
 					`${props.value} is not a valid category. Please use an existing category.`,
 			},
 		},
-		name: {
-			type: String,
-			required: true,
-			trim: true,
-		},
-		parent: {
-			type: String,
-			default: null,
-			trim: true,
-		},
+		names: [
+			{
+				name: {
+					type: String,
+					required: true,
+					trim: true,
+				},
+				parent: {
+					type: String,
+					default: null,
+					trim: true,
+				},
+				_id: false,
+			},
+		],
 		createdBy: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
@@ -81,8 +83,29 @@ const EnumSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-// Compound index to ensure 'name' is unique within the same 'category'
-EnumSchema.index({ category: 1, name: 1 }, { unique: true });
+EnumSchema.path("names").validate(function (names) {
+	const hasNullParent = names.some((n) => n.parent === null);
+	const hasNonNullParent = names.some((n) => n.parent !== null);
+
+	if (hasNullParent && hasNonNullParent) {
+		return false;
+	}
+	return true;
+}, "If 'parent' is not null, it must not be empty or undefined.");
+
+EnumSchema.path("names").validate(function (names) {
+	const seen = new Set();
+
+	for (const { name, parent } of names) {
+		const key = `${name}:${parent || "null"}`;
+		if (seen.has(key)) {
+			return false; // Duplicate found
+		}
+		seen.add(key);
+	}
+
+	return true;
+}, "Duplicate 'name' with the same 'parent' is not allowed within the same category.");
 
 const Enum = mongoose.model("Enum", EnumSchema);
 

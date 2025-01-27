@@ -38,6 +38,7 @@ const crimeRouter = require("./routes/crimeRoutes.js");
 const itemRouter = require("./routes/itemRoutes.js");
 const countryRouter = require("./routes/countryRoutes.js");
 const mineRouter = require("./routes/mineRoutes.js");
+const enumRouter = require("./routes/enumRoutes.js");
 
 // Routes
 app.use("/api/v1/user", userRouter);
@@ -45,6 +46,7 @@ app.use("/api/v1/crime", crimeRouter);
 app.use("/api/v1/item", itemRouter);
 app.use("/api/v1/country", countryRouter);
 app.use("/api/v1/mine", mineRouter);
+app.use("/api/v1/enum", enumRouter);
 
 // Initialize schedules
 initializeSchedules();

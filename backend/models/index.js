@@ -14,6 +14,8 @@ const Bank = require("./World/Bank.js");
 const Mine = require("./World/Mine.js");
 const Hospital = require("./World/Travel/Hospital.js");
 const Property = require("./World/Property/Property.js");
+const Inventory = require("./Inventory.js");
+const { Enum, EnumCategory } = require("./Enum.js");
 
 module.exports = {
 	User,
@@ -31,4 +33,7 @@ module.exports = {
 	Mine,
 	Hospital,
 	Property,
+	Inventory,
+	Enum,
+	EnumCategory,
 };

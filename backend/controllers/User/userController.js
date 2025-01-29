@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
 const { User, Crime } = require("../models");
-const { createJWT } = require("../config/createJWT.js");
-const { selectRandomBloodType } = require("../utils/bloodType.js");
+const { createJWT } = require("../../config/createJWT.js");
+const { selectRandomBloodType } = require("../../utils/bloodType.js");
 
 /**
  * @desc	Sign Up a new user

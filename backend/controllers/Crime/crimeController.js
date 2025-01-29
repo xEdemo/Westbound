@@ -7,7 +7,7 @@ const {
 	LootTable,
 	PenaltyTable,
 } = require("../models");
-const { crimeType, crimeSubtype } = require("../utils/enum.js");
+const { crimeType, crimeSubtype } = require("../../utils/enum.js");
 
 /**
  * @desc    Used to get all existing crimes

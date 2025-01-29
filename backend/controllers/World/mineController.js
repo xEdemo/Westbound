@@ -6,7 +6,7 @@ const {
 	mineHazards,
 	minePositiveEventType,
 	mineNegativeEventType,
-} = require("../utils/enum.js");
+} = require("../../utils/enum.js");
 
 /**
  * @desc	Creates a mine

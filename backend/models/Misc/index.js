@@ -6,14 +6,14 @@ const {
 	PropertyCrime,
 	ProductionCrime,
 } = require("./Crime.js");
-const Item = require("./Item/Item.js");
-const { LootTable, PenaltyTable } = require("./Item/LootAndPenaltyTable.js");
-const Country = require("./World/Country.js");
-const Npc = require("./Npc.js");
-const Bank = require("./World/Bank.js");
-const Mine = require("./World/Mine.js");
-const Hospital = require("./World/Travel/Hospital.js");
-const Property = require("./World/Property/Property.js");
+const Item = require("../Item/Item.js");
+const { LootTable, PenaltyTable } = require("../Item/LootAndPenaltyTable.js");
+const Country = require("../World/Country.js");
+const Npc = require("../User/Npc.js");
+const Bank = require("../Economy/Bank.js");
+const Mine = require("../World/Mine.js");
+const Hospital = require("../Travel/Hospital.js");
+const Property = require("../Property/Property.js");
 const Inventory = require("./Inventory.js");
 const { Enum, EnumCategory } = require("./Enum.js");
 

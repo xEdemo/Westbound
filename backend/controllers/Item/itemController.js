@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const { Item } = require("../models");
 const asyncHandler = require("express-async-handler");
-const { itemCategory } = require("../utils/enum.js");
+const { itemCategory } = require("../../utils/enum.js");
 
 /**
  * @desc	Create an item

@@ -5,6 +5,7 @@ const initializeSchedules = require("./schedules");
 
 const express = require("express");
 const app = express();
+const multer = require("multer");
 
 // WebSocket import
 
@@ -30,7 +31,8 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 // Required for Postman
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Route Imports
 const userRouter = require("./routes/userRoutes.js");

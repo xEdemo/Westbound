@@ -74,7 +74,8 @@ const UserSchema = new mongoose.Schema(
 					},
 					change: {
 						type: Number,
-					}
+					},
+					_id: false,
 				}],
 				lastNetWorthUpdate: {
 					type: Date,
@@ -139,6 +140,7 @@ const UserSchema = new mongoose.Schema(
 			{
 				id: {
 					type: mongoose.Schema.Types.ObjectId,
+					ref: "Crime",
 				},
 				name: {
 					type: String,
@@ -156,6 +158,10 @@ const UserSchema = new mongoose.Schema(
 				_id: false,
 			},
 		],
+		inventory: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Inventory",
+		}
 	},
 	{
 		timestamps: true,

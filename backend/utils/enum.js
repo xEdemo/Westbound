@@ -25,6 +25,7 @@ const itemCategory = [
 	"secondaryWeapon",
 	"meleeWeapon",
 	"consumableWeapon",
+	"ammunition",
 	"armour",
 	"garments",
 	"medical",

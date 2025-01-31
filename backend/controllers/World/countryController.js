@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
-const { Country } = require("../models");
+const { Country } = require("../../models");
 
 /**
  * @desc	Creates a country

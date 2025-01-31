@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { crimeType, crimeSubtype } = require("../utils/enum.js");
+const { crimeType, crimeSubtype } = require("../../utils/enum.js");
 
 const CrimeSchema = new mongoose.Schema(
 	{

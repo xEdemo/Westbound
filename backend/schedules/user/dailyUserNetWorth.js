@@ -1,4 +1,4 @@
-const { User } = require("../../models/index.js");
+const { User } = require("../../models");
 const { calculateNetWorth } = require("../../utils/calculateNetWorth.js");
 
 const dailyUserNetWorth = async () => {

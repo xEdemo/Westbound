@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
-const { Enum, EnumCategory, User } = require("../models");
+const { Enum, EnumCategory, User } = require("../../models");
 
 /**
  * @desc	Creates a new enum category and enum

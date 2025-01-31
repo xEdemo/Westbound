@@ -12,7 +12,7 @@ const {
 	logoutUser,
 	deleteUser,
 	addXpToUser,
-} = require("../controllers/userController.js");
+} = require("../controllers/User/userController.js");
 
 router.route("/usernames").get(getAllUsernames);
 router.route("/emails").get(getAllEmails);

@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
-const { Bank } = require("../models");
+const { Bank } = require("../../models");
 
 /**
  * @desc	Creates a bank

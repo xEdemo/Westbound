@@ -8,7 +8,7 @@ const {
 	createItem,
 	getAllItems,
 	deleteItem,
-} = require("../controllers/itemController.js");
+} = require("../controllers/Item/itemController.js");
 
 // Configure Multer (store image in memory first)
 const storage = multer.memoryStorage();

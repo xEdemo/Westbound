@@ -11,7 +11,7 @@ const {
 	deleteCrimeById,
 	getAllEnvironmentalCrimes,
 	getAllFinancialCrimes,
-} = require("../controllers/crimeController.js");
+} = require("../controllers/Crime/crimeController.js");
 
 router.route("/environmental").get([protect], getAllEnvironmentalCrimes);
 router.route("/financial").get([protect], getAllFinancialCrimes);

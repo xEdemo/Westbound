@@ -1,12 +1,12 @@
  const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
-const { Mine } = require("../models");
+const { Mine } = require("../../models");
 const {
 	mineTypeOfMine,
 	mineHazards,
 	minePositiveEventType,
 	mineNegativeEventType,
-} = require("../utils/enum.js");
+} = require("../../utils/enum.js");
 
 /**
  * @desc	Creates a mine

@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
-const { User, Crime, Inventory } = require("../models");
-const { createJWT } = require("../config/createJWT.js");
-const { selectRandomBloodType } = require("../utils/bloodType.js");
+const { User, Crime } = require("../../models");
+const { createJWT } = require("../../config/createJWT.js");
+const { selectRandomBloodType } = require("../../utils/bloodType.js");
 
 /**
  * @desc	Sign Up a new user
@@ -44,25 +44,17 @@ const registerUser = asyncHandler(async (req, res) => {
 		username: normalizedUsername,
 		email: normalizedEmail,
 		password,
-		bloodType,
 		crime,
+		bloodType,
 	});
-
-	const inventory = await Inventory.create({
-		user: user._id,
-		items: [],
-	});
-	user.inventory = inventory._id;
-	await user.save();
 
 	if (user) {
 		res.status(StatusCodes.CREATED).json({
 			_id: user._id,
 			username: user.username,
 			email: user.email,
-			bloodType,
 			crime,
-			inventory,
+			bloodType,
 		});
 	} else {
 		res.status(StatusCodes.BAD_REQUEST);
@@ -172,9 +164,9 @@ const deleteUser = asyncHandler(async (req, res) => {
 		throw new Error(`No user found with an id of ${userId}.`);
 	}
 
-	await Inventory.findByIdAndDelete(user.inventory);
+	// Will need to delete their cookies
 
-	await user.deleteOne();
+	await User.findByIdAndDelete(user._id);
 
 	res.status(StatusCodes.OK).json({ msg: "User Deleted." });
 });

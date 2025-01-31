@@ -8,7 +8,7 @@ const {
 	getAllEnums,
 	editNamesByEnumId,
 	deleteEnumById,
-} = require("../controllers/enumController.js");
+} = require("../controllers/Misc/enumController.js");
 
 router
 	.route("/")

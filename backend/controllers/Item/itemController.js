@@ -1,8 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
-const { Item, Enum, User } = require("../models");
+const { Item, Enum, User } = require("../../models");
 const asyncHandler = require("express-async-handler");
-const { uploadImageToCloudinary } = require("../middleware/upload.js");
-const cloudinary = require("../config/cloudinary.js");
+const { uploadImageToCloudinary } = require("../../middleware/upload.js");
+const cloudinary = require("../../config/cloudinary.js");
 
 /**
  * @desc	Create an item

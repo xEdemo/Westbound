@@ -4,7 +4,7 @@ const validator = require("validator");
 const {
 	calculateUserLevel,
 	calculateCrimeLevel,
-} = require("../utils/xpFormula.js");
+} = require("../../utils/xpFormula.js");
 
 const maxUserXp = 170356920647;
 const maxUserLevel = 200;

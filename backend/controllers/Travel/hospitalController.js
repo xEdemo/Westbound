@@ -101,7 +101,7 @@ const deleteHospitalById = asyncHandler(async (req, res) => {
 
 	const hospital = await Hospital.findById(hospitalId);
 	if (!hospital) {
-		res.statuses.status(StatusCodes.NOT_FOUND);
+		res.status(StatusCodes.NOT_FOUND);
 		throw new Error(
 			`Hospital with ID ${hospitalId} not found in hospital records`
 		);

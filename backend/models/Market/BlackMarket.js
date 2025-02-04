@@ -7,6 +7,9 @@ const BlackMarketSchema = new Schema({
     name: {
         type: String,
     },
+    description: {
+        type: String
+    },
     location: {
         type: mongoose.Schema.Types.ObjectId,
         ref:"Town" // need to figure out Schema Sitch with country/towns

@@ -27,6 +27,10 @@ const BankSchema = new Schema({
             required: true,
         },
     },
+    bankAccounts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
     owner: {
         type: String,
         enum: [
@@ -49,9 +53,6 @@ const BankSchema = new Schema({
         ],
         default: "United States Government"
     },
-    isBlackMarket: {
-        type: Boolean,
-    },
     interestRate: {
         savings: {
             type: Number,
@@ -67,10 +68,6 @@ const BankSchema = new Schema({
     transactionFee: {           // varying aspect idk im not a bank guy
         type: Number,
     },
-    accounts: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "BankAccount"
-    }],
     loanRecords: [
         {
             borrower: {

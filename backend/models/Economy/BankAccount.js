@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const BankAccountSchema = new Schema({
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "NPC", // The NPC or Player who owns the account
+        ref: "User", // The NPC or Player who owns the account
         required: true,
     },
     bank: {

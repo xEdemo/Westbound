@@ -16,6 +16,11 @@ BACKEND
 TODO:
 
 - refactor property and amenityJS
-- complete skeleton for MarketJS
-- refactor imports/exports for the moving of Amenity and Property
-- create schemas for each enum w/ CRUD
+- integrate market and black market to have one template for markets and have identifers for market type
+- update draw.io to reflect current structure
+- add more gambling schemas
+- refactor Country.js and create Town.js and State.js
+- For post/put requests in controllers, booleans need to get checked if they are a string (refer to createItem function in itemController.js (lines 47-86))
+- For post/put requests in controllers, all objects need to be parsed then cleaned with the utilty function I created in utils folder (refer to createItem function in itemController.js (lines 36-45))
+- add createdBy and updatedBy to every schema (refer to Item.js (lines 344-358))
+

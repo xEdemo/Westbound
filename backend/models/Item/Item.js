@@ -26,6 +26,7 @@ const ItemSchema = new mongoose.Schema(
 		circulation: {
 			total: {
 				type: Number,
+				default: 0,
 			},
 			tier: {
 				1: {
@@ -64,7 +65,7 @@ const ItemSchema = new mongoose.Schema(
 					type: Number,
 					default: 0,
 				},
-			}
+			},
 		},
 		// future dynamic handling of economics > math function in controller
 		value: {
@@ -89,11 +90,13 @@ const ItemSchema = new mongoose.Schema(
 				venderBuy: {
 					type: Number,
 					default: 10,
+					min: 1,
 				},
 				// Not dynamic; should be about 20% less than buy
 				venderSell: {
 					type: Number,
 					default: 8,
+					min: 1,
 				},
 				totalVendered: {
 					type: Number,
@@ -122,7 +125,8 @@ const ItemSchema = new mongoose.Schema(
 					}
 					return enumerator.names.some((n) => n.name === value);
 				},
-				message: "Slot is required when the item is equippable. Also, ensure that desired slot is in itemSlot Enum.",
+				message:
+					"Slot is required when the item is equippable. Also, ensure that desired slot is in itemSlot Enum.",
 			},
 		},
 		isConsumable: {
@@ -165,7 +169,29 @@ const ItemSchema = new mongoose.Schema(
 		effect: {
 			type: {
 				type: String,
-				enum: ["heal", "poison", "burn", "pierce"],
+				validate: {
+					validator: async function (value) {
+						const { Enum } = require("../");
+						const enumerator = await Enum.findOne({
+							category: "itemEffectType",
+						});
+						if (!enumerator) {
+							return false;
+						}
+						return enumerator.names.some((n) => n.name === value);
+					},
+				},
+			},
+			applyChance: {
+				type: Number,
+				min: [
+					1,
+					"Apply chance for item effect must be equal to or greater than 1.",
+				],
+				max: [
+					100,
+					"Apply chance for item effect must be less than 100.",
+				],
 			},
 			description: {
 				type: String,
@@ -180,7 +206,7 @@ const ItemSchema = new mongoose.Schema(
 				},
 				unit: {
 					type: String,
-					enum: ["s", "min", "h", "day"],
+					enum: ["seconds", "minutes", "hours", "days"],
 				},
 			},
 			cooldown: {
@@ -189,7 +215,7 @@ const ItemSchema = new mongoose.Schema(
 				},
 				unit: {
 					type: String,
-					enum: ["s", "min", "h", "day"],
+					enum: ["seconds", "minutes", "hours", "days"],
 				},
 			},
 		},
@@ -205,7 +231,7 @@ const ItemSchema = new mongoose.Schema(
 					validator: async function (value) {
 						const { Enum } = require("../");
 						const enumerator = await Enum.findOne({
-							category: "weaponType",
+							category: "itemWeaponType",
 						});
 
 						if (!enumerator || !enumerator.names) {
@@ -242,18 +268,29 @@ const ItemSchema = new mongoose.Schema(
 						"barbed",
 						"ballistic",
 						"explosive",
-						"gatling",
 						"burning",
 						"corrosive",
 						"shock",
 						"concussive",
 					],
 					validate: {
-						validator: function () {
-							if (this.category.includes("Weapon")) {
-								return true;
+						validator: async function (value) {
+							const { Enum } = require("../");
+							const enumerator = await Enum.findOne({
+								category: "itemWeaponDamageType",
+							});
+
+							if (
+								!enumerator ||
+								!enumerator.names ||
+								!this.category.includes("Weapon")
+							) {
+								return false;
 							}
-							return false;
+
+							return enumerator.names.some(
+								(n) => n.name === value
+							);
 						},
 						message:
 							"Weapons or temp weapons must have a valid damage type.",
@@ -281,28 +318,28 @@ const ItemSchema = new mongoose.Schema(
 				expenditure: {
 					high: {
 						type: Number,
+						min: 1,
 					},
 					low: {
 						type: Number,
+						min: 1,
 					},
 				},
 			},
-			// Level can modify the weapons accuracy/damage amount
-			// level: {
-			// 	type: Number,
-			// },
-			// xp: {
-			// 	type: Number,
-			// },
 			kills: {
 				type: Number,
 				default: 0,
 			},
 		},
 		createdBy: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
-			required: true,
+			user: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+				required: true,
+			},
+			comments: {
+				type: String,
+			},
 		},
 		updatedBy: [
 			{

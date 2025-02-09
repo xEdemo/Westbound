@@ -7,6 +7,7 @@ const { protect, admin, superAdmin } = require("../middleware/authHandler.js");
 const {
 	createItem,
 	getAllItems,
+	getItemById,
 	deleteItem,
 } = require("../controllers/Item/itemController.js");
 
@@ -18,6 +19,9 @@ router
 	.route("/")
 	.post([protect, superAdmin, upload.single("image")], createItem)
 	.get([protect], getAllItems);
-router.route("/:itemId").delete([protect, superAdmin], deleteItem);
+router
+	.route("/:itemId")
+	.get([protect], getItemById)
+	.delete([protect, superAdmin], deleteItem);
 
 module.exports = router;

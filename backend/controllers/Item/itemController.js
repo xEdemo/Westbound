@@ -3,6 +3,7 @@ const { Item, Enum, User } = require("../../models");
 const asyncHandler = require("express-async-handler");
 const { uploadImageToCloudinary } = require("../../middleware/upload.js");
 const cloudinary = require("../../config/cloudinary.js");
+const { cleanObject } = require("../../utils/cleanObject.js");
 
 /**
  * @desc	Create an item
@@ -27,7 +28,10 @@ const createItem = asyncHandler(async (req, res) => {
 		effect,
 		armour,
 		weapon,
+		comments,
 	} = req.body;
+
+	const isSlotEmpty = !slot ? undefined : slot;
 
 	const parseEffect =
 		typeof effect === "string" ? JSON.parse(effect) : effect;
@@ -36,17 +40,93 @@ const createItem = asyncHandler(async (req, res) => {
 	const parseWeapon =
 		typeof weapon === "string" ? JSON.parse(weapon) : weapon;
 
+	const cleanedEffect = cleanObject(parseEffect);
+	const cleanedArmour = cleanObject(parseArmour);
+	const cleanedWeapon = cleanObject(parseWeapon);
+
+	const isConsumableBoolean =
+		typeof isConsumable === "string"
+			? isConsumable.toLowerCase() === "true"
+				? true
+				: isConsumable.toLowerCase() === "false"
+				? false
+				: null
+			: isConsumable;
+	const isStackableBoolean =
+		typeof isStackable === "string"
+			? isStackable.toLowerCase() === "true"
+				? true
+				: isStackable.toLowerCase() === "false"
+				? false
+				: null
+			: isStackable;
+	const isTradeableBoolean =
+		typeof isTradeable === "string"
+			? isTradeable.toLowerCase() === "true"
+				? true
+				: isTradeable.toLowerCase() === "false"
+				? false
+				: null
+			: isTradeable;
+	const isQuestItemBoolean =
+		typeof isQuestItem === "string"
+			? isQuestItem.toLowerCase() === "true"
+				? true
+				: isQuestItem.toLowerCase() === "false"
+				? false
+				: null
+			: isQuestItem;
+	const isEquippableBoolean =
+		typeof isEquippable === "string"
+			? isEquippable.toLowerCase() === "true"
+				? true
+				: isEquippable.toLowerCase() === "false"
+				? false
+				: null
+			: isEquippable;
+
 	if (!name || !description || !venderBuy || !venderSell || !category) {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error(`Please fill out all required fields.`);
 	}
 
-	const itemCategory = await Enum.findOne({ category: "itemCategory" });
+	const itemSlot = await Enum.findOne({ category: "itemSlot" });
+	if (isSlotEmpty && !itemSlot.names.some((n) => n.name === isSlotEmpty)) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(`Item slot of '${isSlotEmpty}' was not found in the enum.`);
+	}
 
+	const itemCategory = await Enum.findOne({ category: "itemCategory" });
 	if (!itemCategory.names.some((n) => n.name === category)) {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error(
 			`Item category of '${category}' was not found in the enum.`
+		);
+	}
+
+	const itemEffectType = await Enum.findOne({ category: "itemEffectType" });
+	if (
+		cleanedEffect &&
+		cleanedEffect.type &&
+		!itemEffectType.names.some((n) => n.name === cleanedEffect.type)
+	) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(
+			`Item effect type of ${cleanedEffect?.type} was not found in the enum.`
+		);
+	}
+
+	const itemWeaponType = await Enum.findOne({ category: "itemWeaponType" });
+	if (
+		cleanedWeapon &&
+		cleanedWeapon.type &&
+		!itemWeaponType.names.some(
+			(n) => n.name === cleanedWeapon.type && n.parent === category
+		)
+	) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(
+			`Item weapon type of ${cleanedWeapon?.type} was not found in the enum.`
 		);
 	}
 
@@ -63,9 +143,17 @@ const createItem = asyncHandler(async (req, res) => {
 		throw new Error(`An item with the name '${name}' already exists.`);
 	}
 
-	if (isEquippable && !slot) {
+	if (isEquippableBoolean && !isSlotEmpty) {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error(`Item was made equippable but was not given a slot.`);
+	}
+
+	if (
+		(cleanedEffect && cleanedEffect.applyChance > 100) ||
+		(cleanedEffect && cleanedEffect.applyChance < 1)
+	) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(`Apply chance must be within a range of 1-100.`);
 	}
 
 	if (!req.file) {
@@ -88,46 +176,20 @@ const createItem = asyncHandler(async (req, res) => {
 				venderSell,
 			},
 		},
-		slot,
-		isConsumable,
-		isStackable,
-		isTradeable,
-		isQuestItem,
-		isEquippable,
-		armour: {
-			rating: parseArmour?.rating,
-		},
-		effect: {
-			type: parseEffect?.type,
-			description: parseEffect?.description,
-			amount: parseEffect?.amount,
-			duration: {
-				value: parseEffect?.duration?.value,
-				unit: parseEffect?.duration?.unit,
-			},
-			cooldown: {
-				value: parseEffect?.cooldown?.value,
-				unit: parseEffect?.cooldown?.unit,
-			},
-		},
+		slot: isSlotEmpty,
+		isConsumable: isConsumableBoolean,
+		isStackable: isStackableBoolean,
+		isTradeable: isTradeableBoolean,
+		isQuestItem: isQuestItemBoolean,
+		isEquippable: isEquippableBoolean,
+		armour: cleanedArmour,
+		effect: cleanedEffect,
 		category,
-		weapon: {
-			type: parseWeapon?.type,
-			noiseLevel: parseWeapon?.noiseLevel,
-			accuracy: parseWeapon?.accuracy,
-			damage: {
-				type: parseWeapon?.damage?.type,
-				amount: parseWeapon?.damage?.amount,
-			},
-			ammunition: {
-				type: parseWeapon?.ammunition?.type,
-				expenditure: {
-					high: parseWeapon?.ammunition?.expenditure?.high,
-					low: parseWeapon?.ammunition?.expenditure?.low,
-				},
-			},
+		weapon: cleanedWeapon,
+		createdBy: {
+			user: user._id,
+			comments,
 		},
-		createdBy: user._id,
 	});
 
 	if (!item.category.includes("Weapon")) {
@@ -144,8 +206,46 @@ const createItem = asyncHandler(async (req, res) => {
  * @access	Private
  */
 const getAllItems = asyncHandler(async (req, res) => {
-	const items = await Item.find({}).select("-__v").sort("name");
+	const items = await Item.find({})
+		.select("-__v")
+		.sort("name")
+		.populate("createdBy.user", "username");
 	res.status(StatusCodes.OK).json({ count: items.length, items });
+});
+
+/**
+ * @desc	Grabs a single item
+ * @route	Get /api/v1/item/:itemId
+ * @access	Private
+ */
+const getItemById = asyncHandler(async (req, res) => {
+	const { itemId } = req.params;
+	const item = await Item.findById(itemId);
+	if (!item) {
+		res.status(StatusCodes.NOT_FOUND);
+		throw new Error(`Item with ID ${itemId} not found.`);
+	}
+	res.status(StatusCodes.OK).json({ item });
+});
+
+/**
+ * @desc	Updates an existing item by Id
+ * @route	PUT /api/v1/item/:itemId
+ * @access	Super Admin
+ */
+const updateItem = asyncHandler(async (req, res) => {
+	const { itemId } = req.params;
+
+	const item = await Item.findById(itemId);
+	if (!item) {
+		res.status(StatusCodes.NOT_FOUND);
+		throw new Error(`Item with ID ${itemId} not found.`);
+	}
+
+	const { name } = req.body;
+
+	if (name && name !== item.name) {
+	}
 });
 
 /**
@@ -180,5 +280,6 @@ const deleteItem = asyncHandler(async (req, res) => {
 module.exports = {
 	createItem,
 	getAllItems,
+	getItemById,
 	deleteItem,
 };

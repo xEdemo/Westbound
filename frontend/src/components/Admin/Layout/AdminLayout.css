@@ -1,0 +1,30 @@
+.admin-layout-container {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	font-family:'Inter', sans-serif;
+	overflow-x: hidden;
+	transition: margin-left 0.3s ease-in-out;
+}
+
+.admin-main {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	transition: margin-left 0.3s ease-in-out;
+	background: var(--background-theme);
+	color: var(--teal-blue);
+}
+
+.sidebar-closed .admin-sidebar-container {
+	width: 0px;
+}
+
+.sidebar-closed .admin-main {
+	margin-left: 0px;
+}
+
+.admin-content {
+	padding: 20px;
+	overflow-x: hidden;
+}

@@ -9,6 +9,13 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 
 // Components CSS
+import "./components/Admin/Header/AdminHeader.css";
+import "./components/Admin/Sidebar/AdminSidebar.css";
+import "./components/Admin/Layout/AdminLayout.css";
+import "./components/Admin/DynamicTable/DynamicTable.css";
+import "./components/Admin/DeleteModal/DeleteModal.css";
+import "./components/Admin/DynamicForm/DynamicForm.css";
+
 import "./components/Layout/Layout.css";
 import "./components/Header/Header.css";
 import "./components/ImageSlider/ImageSlider.css";
@@ -18,6 +25,9 @@ import "./components/Sidebar/Sidebar.css";
 import "./components/ProgressBar/ProgressBar.css";
 
 // Pages CSS
+import "./pages/Admin/Dashboard/Dashboard.css";
+import "./pages/Admin/Controllers/Item/Item.css";
+
 import "./pages/Landing/Landing.css";
 import "./pages/Landing/Landing.css";
 import "./pages/Home/Home.css";

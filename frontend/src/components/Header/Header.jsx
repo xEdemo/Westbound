@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Dropdown } from "../";
 import { TbLogout2, TbSettings } from "react-icons/tb";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { logoutUser } from "../../slices/user/userSlice.js";
 import { toast } from "react-toastify";
 
@@ -27,13 +28,26 @@ const Header = () => {
 		{
 			icon: <TbSettings />,
 			label: "Settings",
+			show: true,
 			onClick: () => {
 				console.log("Navigating to settings...");
 			},
 		},
 		{
+			icon: <MdAdminPanelSettings />,
+			label: "Admin",
+			show:
+				user?.role === "superAdmin" || user?.role === "admin"
+					? true
+					: false,
+			onClick: () => {
+				navigate("/admin/dashboard");
+			},
+		},
+		{
 			icon: <TbLogout2 />,
 			label: "Logout",
+			show: true,
 			onClick: async () => {
 				try {
 					const res = await dispatch(logoutUser()).unwrap();

@@ -1,0 +1,13 @@
+.admin-controller-container {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.admin-title-container {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+

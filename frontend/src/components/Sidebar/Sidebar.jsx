@@ -11,7 +11,7 @@ import { GiStrong } from "react-icons/gi";
 
 const iconSize = 24;
 
-const Sidebar = ({ isOpen, toggleSidebar, isSidebarOpen }) => {
+const Sidebar = ({ toggleSidebar, isSidebarOpen }) => {
 	const { user, isAuthenticated, loading, error } = useSelector(
 		(state) => state.user
 	);
@@ -20,7 +20,7 @@ const Sidebar = ({ isOpen, toggleSidebar, isSidebarOpen }) => {
 		<div
 			className="sidebar-container"
 			style={{
-				transform: isOpen ? "translateX(0)" : "translateX(-100px)", //translateX(-100px)
+				transform: isSidebarOpen ? "translateX(0)" : "translateX(-100px)", //translateX(-100px)
 				transition: "transform 0.3s ease",
 			}}
 		>
@@ -41,9 +41,9 @@ const Sidebar = ({ isOpen, toggleSidebar, isSidebarOpen }) => {
 					{isSidebarOpen ? (
 						<>
 							<div className="sidebar-div-open">
-								<h2 style={{ textAlign: "center" }}>
+								<h3 style={{ textAlign: "center" }}>
 									{user.username}
-								</h2>
+								</h3>
 							</div>
 							<div className="sidebar-div-open">
 								<h6>Vitals</h6>
@@ -82,8 +82,8 @@ const Sidebar = ({ isOpen, toggleSidebar, isSidebarOpen }) => {
 							<div className="sidebar-div-open">
 								<h6>Progression</h6>
 								<p>Level: <span>{user.progression.level}</span></p>
-								<p>XP: <span title={`Xp to next level: ${calculateXpForNextUserLevel(user.progression.xp, user.progression.level).neededXp}`}>{parseNumber(user.progression.xp - 250)}/{parseNumber(calculateXpForNextUserLevel(user.progression.xp, user.progression.level).nextLevelXp)}</span></p>
-								<p>Networth: <span>{user.progression.networth}</span></p>
+								<p>XP: <span title={`${calculateXpForNextUserLevel(user.progression.xp, user.progression.level).neededXp}xp to next level.`}>{parseNumber(user.progression.xp - 250)}/{parseNumber(calculateXpForNextUserLevel(user.progression.xp, user.progression.level).nextLevelXp)}</span></p>
+								<p>Net Worth: <span style={{ color: "var(--money-green)" }}>{parseNumber(user.progression.netWorth.current)}</span></p>
 							</div>
 							<div className="sidebar-div-open">
 								<h6>Currencies</h6>

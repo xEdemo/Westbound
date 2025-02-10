@@ -199,6 +199,7 @@ const ItemSchema = new mongoose.Schema(
 			amount: {
 				// How much the user will get healed, damage over time, etc.
 				type: Number,
+				min: 1,
 			},
 			duration: {
 				value: {
@@ -206,7 +207,7 @@ const ItemSchema = new mongoose.Schema(
 				},
 				unit: {
 					type: String,
-					enum: ["seconds", "minutes", "hours", "days"],
+					enum: ["seconds", "minutes", "hours", "days", "months", "years"],
 				},
 			},
 			cooldown: {
@@ -215,7 +216,7 @@ const ItemSchema = new mongoose.Schema(
 				},
 				unit: {
 					type: String,
-					enum: ["seconds", "minutes", "hours", "days"],
+					enum: ["seconds", "minutes", "hours", "days", "months", "years"],
 				},
 			},
 		},

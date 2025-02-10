@@ -1,0 +1,28 @@
+.admin-header-container {
+	min-height: 64px;
+	width: 100%;
+	padding: 0 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.user-header-image-container-admin img {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.admin-sidebar-icon {
+	display: flex;
+	padding: 3px;
+	border-radius: 50%;
+	cursor: pointer;
+	background-color: transparent;
+	transition: background-color 0.3s ease-in-out;
+}
+
+.admin-sidebar-icon:hover {
+	background-color: rgba(235, 235, 235, 0.3);
+}

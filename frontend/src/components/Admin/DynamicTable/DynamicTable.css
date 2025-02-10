@@ -1,0 +1,75 @@
+.dynamic-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.dynamic-table th,
+.dynamic-table td {
+	border: 1px solid var(--soft-beige);
+	padding: 8px;
+}
+
+.dynamic-table th {
+	background-color: var(--pale-gold);
+	text-align: center;
+	user-select: none;
+}
+
+.dynamic-table tr:nth-child(even) {
+	background-color: var(--muted-gold);
+}
+
+.dynamic-table tr {
+	transition: background-color 0.3s ease-in-out;
+}
+
+.dynamic-table tr:hover {
+	background-color: rgba(45, 45, 45, 0.25);
+}
+
+.dynamic-table-json {
+	background-color: var(--pale-gold);
+	font-size: 1.1rem;
+	border: 1px solid var(--soft-beige);
+	padding: 5px;
+}
+
+.dynamic-table-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--pale-gold);
+	border: 1px solid var(--soft-beige);
+	border-top: none;
+	padding: 3.5px;
+}
+
+.dynamic-table-pagination {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.dynamic-table-pagination button {
+	line-height: normal;
+}
+
+.dynamic-table-page-number {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+
+.dynamic-table-page-number label {
+	font-size: 1rem;
+}
+
+.dynamic-table-page-number input {
+	width: 50px;
+	border: 1px solid var(--soft-beige);
+	text-align: center;
+}
+
+.dynamic-table-page-number input:focus {
+	border: 1px solid var(--soft-beige);
+}

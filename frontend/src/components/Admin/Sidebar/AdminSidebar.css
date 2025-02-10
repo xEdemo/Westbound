@@ -1,0 +1,83 @@
+.admin-sidebar-container {
+	width: 250px;
+	height: 100vh;
+	transition: width 0.3s ease-in-out;
+	background-color: var(--rust-brown);
+	overflow-y: auto;
+}
+
+.admin-sidebar-content {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	line-height: normal;
+	padding-top: 10px;
+	opacity: 1;
+	scale: 1;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.admin-sidebar-content p {
+	color: var(--soft-beige);
+}
+
+.admin-logo {
+	transition: opacity 0.3s ease-in-out;
+}
+
+.admin-logo:hover {
+	opacity: 0.8;
+	cursor: pointer;
+}
+
+.admin-logo img {
+	width: 128px;
+	height: 82px;
+}
+
+.admin-sidebar-container.closed .admin-sidebar-content {
+	opacity: 0;
+	scale: 0;
+	pointer-events: none;
+}
+
+.admin-controllers h4 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	cursor: pointer;
+}
+
+.admin-dropdown-layout {
+	padding-top: 5px;
+	width: 250px;
+	display: flex;
+	flex-direction: column;
+}
+
+.admin-dropdown-item {
+	padding: 10px 40px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	cursor: pointer;
+	user-select: none;
+	transition: background-color 0.3s ease-in-out;
+	font-size: 1.6rem;
+}
+
+.admin-dropdown-item p {
+	font-size: 1.6rem;
+}
+
+.admin-dropdown-item.active {
+	background-color: var(--muted-gold);
+	opacity: 0.9;
+}
+
+.admin-dropdown-item:hover {
+	background-color: var(--deep-navy-blue);
+}

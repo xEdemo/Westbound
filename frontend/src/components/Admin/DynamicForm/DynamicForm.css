@@ -1,0 +1,75 @@
+.admin-form {
+	display: flex;
+	flex-direction: column;
+	user-select: none;
+}
+
+.admin-form div {
+	margin-bottom: 10px;
+}
+
+.admin-form h2 {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 5px;
+	border-bottom: 2px solid var(--color-rustic-border);
+}
+
+.admin-form h3 {
+	margin-top: 15px;
+}
+
+.admin-form-key {
+	text-align: right;
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+	width: 100%;
+}
+
+.admin-form textarea {
+	height: 80px;
+	line-height: 1.8rem;
+}
+
+.admin-form button {
+	margin-top: 20px;
+}
+
+.admin-form input[type="checkbox"] {
+	width: 13px;
+}
+
+.admin-checkbox-field {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	column-gap: 10px;
+	width: fit-content;
+	margin-left: 2px;
+}
+
+.admin-checkbox-field label {
+	width: 200px;
+}
+
+.array-label-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 2px;
+}
+
+.array-label-container button {
+	margin: 0;
+}
+
+.array-field-item {
+	display: flex;
+	flex-direction: column;
+}
+
+.array-field-item div {
+	margin: 0;
+}

@@ -28,7 +28,6 @@ const Layout = ({ children }) => {
 			) : (
 				<div className="layout-main">
 					<Sidebar
-						isOpen={isSidebarOpen}
 						toggleSidebar={toggleSidebar}
 						isSidebarOpen={isSidebarOpen}
 					/>

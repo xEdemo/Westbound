@@ -10,7 +10,10 @@
 	border-image-source: url("/src/assets/border/wood-border.png");
 	border-image-slice: 6;
 	border-image-repeat: round;
-	color: whitesmoke;
+}
+
+.header-container a {
+	color: var(--soft-beige);
 }
 
 .header-layout {

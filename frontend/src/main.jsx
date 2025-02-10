@@ -11,7 +11,17 @@ import {
 import store from "./store.js";
 import { Provider } from "react-redux";
 
-import { Home, Landing, Private, Register, Login } from "./pages";
+import {
+	Home,
+	Landing,
+	Private,
+	Register,
+	Login,
+	Admin,
+	Dashboard,
+	Item,
+	ItemForm,
+} from "./pages";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -22,6 +32,14 @@ const router = createBrowserRouter(
 			{/* Private Routes */}
 			<Route path="" element={<Private />}>
 				<Route path="/home" element={<Home />} />
+			</Route>
+			{/* Admin Routes */}
+			<Route path="/admin" element={<Admin />}>
+				<Route path="/admin/dashboard" element={<Dashboard />} />
+				<Route path="/admin/item" element={<Item />}>
+					<Route path="create" element={<ItemForm mode="create" />} />
+					<Route path=":itemId" element={<ItemForm mode="edit" />} />
+				</Route>
 			</Route>
 		</Route>
 	)

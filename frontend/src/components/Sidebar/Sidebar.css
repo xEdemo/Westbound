@@ -2,9 +2,13 @@
 	line-height: normal;
 	width: 150px;
 	height: calc(100vh - 80px);
-	background-color: rgba(0, 0, 0, 0.4);
+	background-color: var(--rust-brown);
 	overflow-y: auto;
 	position: relative;
+}
+
+.sidebar-container p {
+	color: var(--soft-beige);
 }
 
 .sidebar-toggle-btn {

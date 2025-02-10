@@ -2,7 +2,7 @@
 	position: absolute;
 	top: 40px;
 	right: 0px;
-	background-color: rgba(12, 12, 12, 0.95);
+	background-color: var(--dark-burnt-orange);
 	z-index: 100;
 	border-radius: 5px;
 }
@@ -16,10 +16,15 @@
 	transition: all 0.2s ease-in-out;
 }
 
+.dropdown-item p,
+.dropdown-item svg {
+	color: var(--soft-beige);
+}
+
 .dropdown-item:hover {
-	text-shadow: 0 0 5px var(--color-parchment);
+	text-shadow: 0 0 5px var(--soft-beige);
 }
 
 .dropdown-item:hover svg {
-	filter: drop-shadow(0 0 5px var(--color-parchment));
-  }
+	filter: drop-shadow(0 0 5px var(--soft-beige));
+}

@@ -21,6 +21,8 @@ import {
 	Dashboard,
 	Item,
 	ItemForm,
+	Enum,
+	EnumForm,
 } from "./pages";
 
 const router = createBrowserRouter(
@@ -36,6 +38,10 @@ const router = createBrowserRouter(
 			{/* Admin Routes */}
 			<Route path="/admin" element={<Admin />}>
 				<Route path="/admin/dashboard" element={<Dashboard />} />
+				<Route path="/admin/enum" element={<Enum />}>
+					<Route path="create" element={<EnumForm mode="create"/>} />
+					<Route path=":enumId" element={<EnumForm mode="edit"/>} />
+				</Route>
 				<Route path="/admin/item" element={<Item />}>
 					<Route path="create" element={<ItemForm mode="create" />} />
 					<Route path=":itemId" element={<ItemForm mode="edit" />} />

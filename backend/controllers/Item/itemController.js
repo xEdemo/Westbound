@@ -3,7 +3,7 @@ const { Item, Enum, User } = require("../../models");
 const asyncHandler = require("express-async-handler");
 const { uploadImageToCloudinary } = require("../../middleware/upload.js");
 const cloudinary = require("../../config/cloudinary.js");
-const { cleanObject } = require("../../utils/cleanObject.js");
+const { autoParseAndClean } = require("../../utils/autoParseAndClean.js");
 
 /**
  * @desc	Create an item
@@ -12,6 +12,14 @@ const { cleanObject } = require("../../utils/cleanObject.js");
  */
 const createItem = asyncHandler(async (req, res) => {
 	const userId = req.user._id.toString();
+
+	const user = await User.findById(userId);
+	if (!user) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(`No user found with id ${userId}.`);
+	}
+
+	const cleanedData = autoParseAndClean(req.body);
 
 	const {
 		name,
@@ -29,61 +37,12 @@ const createItem = asyncHandler(async (req, res) => {
 		armour,
 		weapon,
 		comments,
-	} = req.body;
+	} = cleanedData;
 
-	const isSlotEmpty = !slot ? undefined : slot;
-
-	const parseEffect =
-		typeof effect === "string" ? JSON.parse(effect) : effect;
-	const parseArmour =
-		typeof armour === "string" ? JSON.parse(armour) : armour;
-	const parseWeapon =
-		typeof weapon === "string" ? JSON.parse(weapon) : weapon;
-
-	const cleanedEffect = cleanObject(parseEffect);
-	const cleanedArmour = cleanObject(parseArmour);
-	const cleanedWeapon = cleanObject(parseWeapon);
-
-	const isConsumableBoolean =
-		typeof isConsumable === "string"
-			? isConsumable.toLowerCase() === "true"
-				? true
-				: isConsumable.toLowerCase() === "false"
-				? false
-				: null
-			: isConsumable;
-	const isStackableBoolean =
-		typeof isStackable === "string"
-			? isStackable.toLowerCase() === "true"
-				? true
-				: isStackable.toLowerCase() === "false"
-				? false
-				: null
-			: isStackable;
-	const isTradeableBoolean =
-		typeof isTradeable === "string"
-			? isTradeable.toLowerCase() === "true"
-				? true
-				: isTradeable.toLowerCase() === "false"
-				? false
-				: null
-			: isTradeable;
-	const isQuestItemBoolean =
-		typeof isQuestItem === "string"
-			? isQuestItem.toLowerCase() === "true"
-				? true
-				: isQuestItem.toLowerCase() === "false"
-				? false
-				: null
-			: isQuestItem;
-	const isEquippableBoolean =
-		typeof isEquippable === "string"
-			? isEquippable.toLowerCase() === "true"
-				? true
-				: isEquippable.toLowerCase() === "false"
-				? false
-				: null
-			: isEquippable;
+	if (!comments) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(`Comments are required. Please detail your changes.`);
+	}
 
 	if (!name || !description || !venderBuy || !venderSell || !category) {
 		res.status(StatusCodes.BAD_REQUEST);
@@ -91,9 +50,9 @@ const createItem = asyncHandler(async (req, res) => {
 	}
 
 	const itemSlot = await Enum.findOne({ category: "itemSlot" });
-	if (isSlotEmpty && !itemSlot.names.some((n) => n.name === isSlotEmpty)) {
+	if (slot && !itemSlot.names.some((n) => n.name === slot)) {
 		res.status(StatusCodes.BAD_REQUEST);
-		throw new Error(`Item slot of '${isSlotEmpty}' was not found in the enum.`);
+		throw new Error(`Item slot of '${slot}' was not found in the enum.`);
 	}
 
 	const itemCategory = await Enum.findOne({ category: "itemCategory" });
@@ -106,35 +65,28 @@ const createItem = asyncHandler(async (req, res) => {
 
 	const itemEffectType = await Enum.findOne({ category: "itemEffectType" });
 	if (
-		cleanedEffect &&
-		cleanedEffect.type &&
-		!itemEffectType.names.some((n) => n.name === cleanedEffect.type)
+		effect &&
+		effect.type &&
+		!itemEffectType.names.some((n) => n.name === effect.type)
 	) {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error(
-			`Item effect type of ${cleanedEffect?.type} was not found in the enum.`
+			`Item effect type of ${effect?.type} was not found in the enum.`
 		);
 	}
 
 	const itemWeaponType = await Enum.findOne({ category: "itemWeaponType" });
 	if (
-		cleanedWeapon &&
-		cleanedWeapon.type &&
+		weapon &&
+		weapon.type &&
 		!itemWeaponType.names.some(
-			(n) => n.name === cleanedWeapon.type && n.parent === category
+			(n) => n.name === weapon.type && n.parent === category
 		)
 	) {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error(
-			`Item weapon type of ${cleanedWeapon?.type} was not found in the enum.`
+			`Item weapon type of ${weapon?.type} was not found in the enum.`
 		);
-	}
-
-	const user = await User.findById(userId);
-
-	if (!user) {
-		res.status(StatusCodes.BAD_REQUEST);
-		throw new Error(`No user found with id ${userId}.`);
 	}
 
 	const existingItem = await Item.findOne({ name });
@@ -143,14 +95,14 @@ const createItem = asyncHandler(async (req, res) => {
 		throw new Error(`An item with the name '${name}' already exists.`);
 	}
 
-	if (isEquippableBoolean && !isSlotEmpty) {
+	if (isEquippable && !slot) {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error(`Item was made equippable but was not given a slot.`);
 	}
 
 	if (
-		(cleanedEffect && cleanedEffect.applyChance > 100) ||
-		(cleanedEffect && cleanedEffect.applyChance < 1)
+		(effect && effect.applyChance > 100) ||
+		(effect && effect.applyChance < 1)
 	) {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error(`Apply chance must be within a range of 1-100.`);
@@ -176,16 +128,16 @@ const createItem = asyncHandler(async (req, res) => {
 				venderSell,
 			},
 		},
-		slot: isSlotEmpty,
-		isConsumable: isConsumableBoolean,
-		isStackable: isStackableBoolean,
-		isTradeable: isTradeableBoolean,
-		isQuestItem: isQuestItemBoolean,
-		isEquippable: isEquippableBoolean,
-		armour: cleanedArmour,
-		effect: cleanedEffect,
+		slot,
+		isConsumable,
+		isStackable,
+		isTradeable,
+		isQuestItem,
+		isEquippable,
+		armour,
+		effect,
 		category,
-		weapon: cleanedWeapon,
+		weapon,
 		createdBy: {
 			user: user._id,
 			comments,
@@ -235,6 +187,13 @@ const getItemById = asyncHandler(async (req, res) => {
  */
 const updateItem = asyncHandler(async (req, res) => {
 	const { itemId } = req.params;
+	const userId = req.user._id.toString();
+
+	const user = await User.findById(userId);
+	if (!user) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(`No user found with id ${userId}.`);
+	}
 
 	const item = await Item.findById(itemId);
 	if (!item) {
@@ -242,10 +201,310 @@ const updateItem = asyncHandler(async (req, res) => {
 		throw new Error(`Item with ID ${itemId} not found.`);
 	}
 
-	const { name } = req.body;
+	const [
+		itemSlot,
+		itemCategory,
+		itemEffectType,
+		itemWeaponType,
+		itemWeaponDamageType,
+	] = await Promise.all([
+		Enum.findOne({ category: "itemSlot" }),
+		Enum.findOne({ category: "itemCategory" }),
+		Enum.findOne({ category: "itemEffectType" }),
+		Enum.findOne({ category: "itemWeaponType" }),
+		Enum.findOne({ category: "itemWeaponDamageType" }),
+	]);
 
-	if (name && name !== item.name) {
+	const cleanedData = autoParseAndClean(req.body);
+	const {
+		name,
+		description,
+		venderBuy,
+		venderSell,
+		slot,
+		isConsumable,
+		isStackable,
+		isTradeable,
+		isQuestItem,
+		isEquippable,
+		category,
+		effect,
+		armour,
+		weapon,
+		comments,
+	} = cleanedData;
+
+	if (!comments) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(`Comments are required. Please detail your changes.`);
 	}
+
+	// --- Unique field: name ---
+	if (typeof name !== "undefined" && name !== item.name) {
+		const duplicate = await Item.findOne({ name });
+		if (duplicate) {
+			res.status(StatusCodes.CONFLICT);
+			throw new Error(
+				`An item with the name '${name}' already exists. This field should be unique.`
+			);
+		}
+		item.name = name;
+	}
+
+	// --- Update simple fields ---
+	if (
+		typeof description !== "undefined" &&
+		description !== item.description
+	) {
+		item.description = description;
+	}
+	if (
+		typeof venderBuy !== "undefined" &&
+		venderBuy !== item.value.vender.venderBuy &&
+		venderBuy >= 1
+	) {
+		item.value.vender.venderBuy = venderBuy;
+	}
+	if (
+		typeof venderSell !== "undefined" &&
+		venderSell !== item.value.vender.venderSell &&
+		venderSell >= 1
+	) {
+		item.value.vender.venderSell = venderSell;
+	}
+
+	// --- Validate and update enums for slot ---
+	if (typeof slot !== "undefined" && slot !== item.slot) {
+		if (!itemSlot.names.some((n) => n.name === slot)) {
+			res.status(StatusCodes.BAD_REQUEST);
+			throw new Error(
+				`Item slot of '${slot}' was not found in the enum.`
+			);
+		}
+		item.slot = slot;
+	}
+
+	// --- Update boolean flags if provided ---
+	if (
+		typeof isConsumable !== "undefined" &&
+		isConsumable !== item.isConsumable
+	) {
+		item.isConsumable = isConsumable;
+	}
+	if (
+		typeof isStackable !== "undefined" &&
+		isStackable !== item.isStackable
+	) {
+		item.isStackable = isStackable;
+	}
+	if (
+		typeof isTradeable !== "undefined" &&
+		isTradeable !== item.isTradeable
+	) {
+		item.isTradeable = isTradeable;
+	}
+	if (
+		typeof isQuestItem !== "undefined" &&
+		isQuestItem !== item.isQuestItem
+	) {
+		item.isQuestItem = isQuestItem;
+	}
+	if (
+		typeof isEquippable !== "undefined" &&
+		isEquippable !== item.isEquippable
+	) {
+		item.isEquippable = isEquippable;
+	}
+
+	// --- Update category with enum check ---
+	if (category && category !== item.category) {
+		if (!itemCategory.names.some((n) => n.name === category)) {
+			res.status(StatusCodes.BAD_REQUEST);
+			throw new Error(
+				`Item category of '${category}' was not found in the enum.`
+			);
+		}
+		item.category = category;
+	}
+
+	// --- Update nested effect object ---
+	if (effect) {
+		if (effect.type && (!item.effect || effect.type !== item.effect.type)) {
+			if (!itemEffectType.names.some((n) => n.name === effect.type)) {
+				res.status(StatusCodes.BAD_REQUEST);
+				throw new Error(
+					`Item effect type of '${effect.type}' was not found in the enum.`
+				);
+			}
+			item.effect.type = effect.type;
+		}
+		if (
+			effect.applyChance &&
+			(!item.effect || effect.applyChance !== item.effect.applyChance) &&
+			effect.applyChance >= 1 &&
+			effect.applyChance <= 100
+		) {
+			item.effect.applyChance = effect.applyChance;
+		}
+		if (
+			effect.description &&
+			(!item.effect || effect.description !== item.effect.description)
+		) {
+			item.effect.description = effect.description;
+		}
+		if (
+			effect.amount &&
+			(!item.effect || effect.amount !== item.effect.amount) &&
+			effect.amount >= 1
+		) {
+			item.effect.amount = effect.amount;
+		}
+		if (
+			effect.duration?.value &&
+			(!item.effect ||
+				effect.duration.value !== item.effect.duration.value) &&
+			effect.duration.value >= 1
+		) {
+			item.effect.duration.value = effect.duration.value;
+		}
+		// Need to validate this enum
+		if (
+			effect.duration?.unit &&
+			(!item.effect || effect.duration.unit !== item.effect.duration.unit)
+		) {
+			item.effect.duration.unit = effect.duration.unit;
+		}
+		if (
+			effect.cooldown?.value &&
+			(!item.effect ||
+				effect.cooldown.value !== item.effect.cooldown.value) &&
+			effect.cooldown.value >= 1
+		) {
+			item.effect.cooldown.value = effect.cooldown.value;
+		}
+		// Need to validate this enum
+		if (
+			effect.cooldown?.unit &&
+			(!item.effect || effect.cooldown.unit !== item.effect.cooldown.unit)
+		) {
+			item.effect.cooldown.unit = effect.cooldown.unit;
+		}
+	}
+
+	// --- Update armour object ---
+	if (armour) {
+		if (
+			armour.rating &&
+			(!item.armour || armour.rating !== item.armour.rating) &&
+			armour.rating >= 1
+		) {
+			item.armour.rating = armour.rating;
+		}
+	}
+
+	// --- Update weapon object ---
+	if (weapon) {
+		if (weapon.type && (!item.weapon || weapon.type !== item.weapon.type)) {
+			if (!itemWeaponType.names.some((n) => n.name === weapon.type)) {
+				res.status(StatusCodes.BAD_REQUEST);
+				throw new Error(
+					`Weapon type of '${weapon.type}' was not found in the enum.`
+				);
+			}
+			item.weapon.type = weapon.type;
+		}
+		if (
+			weapon.accuracy &&
+			(!item.weapon || weapon.accuracy !== item.weapon.accuracy) &&
+			weapon.accuracy >= 0
+		) {
+			item.weapon.accuracy = weapon.accuracy;
+		}
+		if (
+			weapon.damage?.type &&
+			(!item.weapon.damage ||
+				weapon.damage.type !== item.weapon.damage.type)
+		) {
+			if (
+				!itemWeaponDamageType.names.some(
+					(n) => n.name === weapon.damage.type
+				)
+			) {
+				res.status(StatusCodes.BAD_REQUEST);
+				throw new Error(
+					`Weapon damage type of '${weapon.damage.type}' was not found in the enum.`
+				);
+			}
+			item.weapon.damage.type = weapon.damage.type;
+		}
+		if (
+			weapon.damage?.amount &&
+			(!item.weapon.damage ||
+				weapon.damage.amount !== item.weapon.damage.amount) &&
+			weapon.damage.amount >= 1
+		) {
+			item.weapon.damage.amount = weapon.damage.amount;
+		}
+		if (
+			weapon.ammunition?.type &&
+			(!item.weapon.ammunition ||
+				weapon.ammunition.type !== item.weapon.ammunition.type)
+		) {
+			item.weapon.ammunition.type = weapon.ammunition.type;
+		}
+		if (
+			weapon.ammunition?.expenditure &&
+			typeof weapon.ammunition.expenditure.high !== "undefined" &&
+			weapon.ammunition.expenditure.high !==
+				item.weapon.ammunition.expenditure.high &&
+			weapon.ammunition.expenditure.high >= 1 &&
+			weapon.ammunition.expenditure.high <=
+				weapon.ammunition.expenditure.low
+		) {
+			item.weapon.ammunition.expenditure.high =
+				weapon.ammunition.expenditure.high;
+		}
+		if (
+			weapon.ammunition?.expenditure &&
+			typeof weapon.ammunition.expenditure.low !== "undefined" &&
+			weapon.ammunition.expenditure.low !==
+				item.weapon.ammunition.expenditure.low &&
+			weapon.ammunition.expenditure.low >= 1 &&
+			weapon.ammunition.expenditure.low <=
+				weapon.ammunition.expenditure.high
+		) {
+			item.weapon.ammunition.expenditure.low =
+				weapon.ammunition.expenditure.low;
+		}
+	}
+
+	item.updatedBy.push({
+		user: user._id,
+		date: new Date().toISOString(),
+		comments,
+	});
+
+	// --- Process image update ---
+	if (req.file) {
+		if (item.image && item.image.publicId) {
+			try {
+				await cloudinary.uploader.destroy(item.image.publicId);
+			} catch (error) {
+				console.error("Cloudinary Error:", error);
+				res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+				throw new Error("Failed to delete item image from Cloudinary.");
+			}
+		}
+		const { url, publicId } = await uploadImageToCloudinary(
+			req.file,
+			`items/${req.body.category || item.category}`
+		);
+		item.image = { url, publicId };
+	}
+
+	await item.save();
+
+	res.status(StatusCodes.OK).json({ item });
 });
 
 /**
@@ -281,5 +540,6 @@ module.exports = {
 	createItem,
 	getAllItems,
 	getItemById,
+	updateItem,
 	deleteItem,
 };

@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { StatusCodes } = require("http-status-codes");
-const { Enum, EnumCategory, User } = require("../../models");
+const { Enum, User } = require("../../models");
+const { autoParseAndClean } = require("../../utils/autoParseAndClean.js");
 
 /**
  * @desc	Creates a new enum category and enum
@@ -9,17 +10,26 @@ const { Enum, EnumCategory, User } = require("../../models");
  */
 const createEnum = asyncHandler(async (req, res) => {
 	const userId = req.user._id.toString();
-	const { name } = req.body;
 
-	if (!name) {
+	const cleanedData = autoParseAndClean(req.body);
+	const { category, names, comments } = cleanedData;
+
+	if (!comments) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(`Comments are required. Please detail your changes.`);
+	}
+
+	if (!category) {
 		res.status(StatusCodes.BAD_REQUEST);
 		throw new Error("Please fill out all of the requried fields.");
 	}
 
-	const exist = await EnumCategory.exists({ name });
-	if (exist) {
+	const duplicate = await Enum.findOne({ category });
+	if (duplicate) {
 		res.status(StatusCodes.BAD_REQUEST);
-		throw new Error(`Name field with value of '${name}' already exists.`);
+		throw new Error(
+			`Name field with value of '${category}' already exists.`
+		);
 	}
 
 	const user = await User.findById(userId);
@@ -29,18 +39,17 @@ const createEnum = asyncHandler(async (req, res) => {
 		throw new Error(`No user found with id ${userId}.`);
 	}
 
-	const enumCategory = await EnumCategory.create({
-		name,
-		createdBy: user._id,
-	});
-
 	const enumerator = await Enum.create({
-		category: name,
-		names: [],
-		createdBy: user._id,
+		category,
+		names,
+		createdBy: {
+			user: user._id,
+			comments,
+		},
+		updatedBy: [],
 	});
 
-	res.status(StatusCodes.OK).json({ enumCategory, enumerator });
+	res.status(StatusCodes.OK).json({ enumerator });
 });
 
 /**
@@ -49,7 +58,10 @@ const createEnum = asyncHandler(async (req, res) => {
  * @access	Admin
  */
 const getAllEnums = asyncHandler(async (req, res) => {
-	const enumerators = await Enum.find().populate("createdBy", "username");
+	const enumerators = await Enum.find({})
+		.select("-__v")
+		.sort("category")
+		.populate("createdBy.user", "username");
 	res.status(StatusCodes.OK).json({
 		count: enumerators.length,
 		categories: enumerators.map((e) => e.category),
@@ -62,14 +74,16 @@ const getAllEnums = asyncHandler(async (req, res) => {
  * @route	PUT /api/v1/enum/:enumId
  * @access	Super Admin
  */
-const editNamesByEnumId = asyncHandler(async (req, res) => {
+const updateEnum = asyncHandler(async (req, res) => {
 	const userId = req.user._id.toString();
 	const { enumId } = req.params;
-	const { name, removeName, parent } = req.body;
 
-	if (parent && !name && !removeName) {
-		res.status(StatusCodes.NOT_MODIFIED).json({});
-		return;
+	const cleanedData = autoParseAndClean(req.body);
+	const { category, names, comments } = cleanedData;
+
+	if (!comments) {
+		res.status(StatusCodes.BAD_REQUEST);
+		throw new Error(`Comments are required. Please detail your changes.`);
 	}
 
 	const user = await User.findById(userId);
@@ -84,34 +98,24 @@ const editNamesByEnumId = asyncHandler(async (req, res) => {
 		throw new Error(`No enum found with Id of '${enumId}'.`);
 	}
 
-	if (removeName && !name && enumerator.names.length === 0) {
-		res.status(StatusCodes.NOT_MODIFIED).json({
-			msg: "There are no names to remove.",
-		});
-		return;
-	}
-
-	if (Array.isArray(removeName)) {
-		enumerator.names = enumerator.names.filter(
-			(n) => !removeName.includes(n.name)
-		);
-	} else if (removeName) {
-		enumerator.names = enumerator.names.filter(
-			(n) => n.name !== removeName
-		);
-	}
-
-	if (Array.isArray(name)) {
-		for (const n of name) {
-			enumerator.names.push({ name: n, parent });
+	if (typeof category !== "undefined" && category !== enumerator.category) {
+		const duplicate = await Enum.findOne({ category });
+		if (duplicate) {
+			res.status(StatusCodes.CONFLICT);
+			throw new Error(
+				`Name field with value of '${category}' already exists. This field should be unique.`
+			);
 		}
-	} else if (name) {
-		enumerator.names.push({ name, parent });
+		enumerator.category = category;
+	}
+
+	if (names !== enumerator.names) {
+		enumerator.names = names;
 	}
 
 	const date = new Date().toISOString();
 
-	enumerator.updatedBy.push({ user: user._id, date });
+	enumerator.updatedBy.push({ user: user._id, date, comments });
 
 	await enumerator.save();
 
@@ -132,8 +136,6 @@ const deleteEnumById = asyncHandler(async (req, res) => {
 		throw new Error(`Mine with Id ${enumId} not found.`);
 	}
 
-	await EnumCategory.findOneAndDelete({ name: enumerator.category });
-
 	await enumerator.deleteOne();
 
 	res.status(StatusCodes.OK).json({
@@ -144,6 +146,6 @@ const deleteEnumById = asyncHandler(async (req, res) => {
 module.exports = {
 	createEnum,
 	getAllEnums,
-	editNamesByEnumId,
+	updateEnum,
 	deleteEnumById,
 };

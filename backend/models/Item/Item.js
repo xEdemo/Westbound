@@ -1,7 +1,6 @@
 const mongoose = require("mongoose"); //TODO: Add source var to all items as to where it can be located on various markets word to timbs
 
 const ItemSchema = new mongoose.Schema(
-	// beginning of base Vars
 	{
 		name: {
 			type: String,
@@ -204,6 +203,7 @@ const ItemSchema = new mongoose.Schema(
 			duration: {
 				value: {
 					type: Number,
+					min: 1,
 				},
 				unit: {
 					type: String,
@@ -213,6 +213,7 @@ const ItemSchema = new mongoose.Schema(
 			cooldown: {
 				value: {
 					type: Number,
+					min: 1,
 				},
 				unit: {
 					type: String,
@@ -223,6 +224,7 @@ const ItemSchema = new mongoose.Schema(
 		armour: {
 			rating: {
 				type: Number,
+				min: 1,
 			},
 		},
 		weapon: {
@@ -249,31 +251,13 @@ const ItemSchema = new mongoose.Schema(
 						`${props.value} is not a valid weapon type.`,
 				},
 			},
-			noiseLevel: {
-				type: Number,
-				min: 0,
-				max: 100,
-			},
 			accuracy: {
 				type: Number,
 				min: [0, "Cannot have negative accuracy."],
-				max: 100,
 			},
 			damage: {
 				type: {
 					type: String,
-					enum: [
-						"piercing",
-						"bludgeoning",
-						"slashing",
-						"barbed",
-						"ballistic",
-						"explosive",
-						"burning",
-						"corrosive",
-						"shock",
-						"concussive",
-					],
 					validate: {
 						validator: async function (value) {
 							const { Enum } = require("../");

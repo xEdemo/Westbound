@@ -26,7 +26,7 @@ import "./components/ProgressBar/ProgressBar.css";
 
 // Pages CSS
 import "./pages/Admin/Dashboard/Dashboard.css";
-import "./pages/Admin/Controllers/Item/Item.css";
+import "./pages/Admin/Controllers/Controller.css";
 
 import "./pages/Landing/Landing.css";
 import "./pages/Landing/Landing.css";

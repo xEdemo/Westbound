@@ -8,6 +8,8 @@ import Admin from "./Private/Admin.jsx";
 import Dashboard from "./Admin/Dashboard/Dashboard.jsx";
 import Item from "./Admin/Controllers/Item/Item.jsx";
 import ItemForm from "./Admin/Controllers/Item/ItemForm.jsx";
+import Enum from "./Admin/Controllers/Enum/Enum.jsx";
+import EnumForm from "./Admin/Controllers/Enum/EnumForm.jsx";
 
 export {
 	Home,
@@ -19,4 +21,6 @@ export {
 	Dashboard,
 	Item,
 	ItemForm,
+	Enum,
+	EnumForm,
 };

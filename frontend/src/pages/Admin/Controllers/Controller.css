@@ -11,3 +11,11 @@
 	justify-content: space-between;
 }
 
+.admin-hover-icon-put:hover {
+	color: blue;
+}
+
+.admin-hover-icon-delete:hover {
+	color: var(--color-error);
+}
+

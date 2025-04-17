@@ -8,6 +8,7 @@ const {
 	createItem,
 	getAllItems,
 	getItemById,
+	updateItem,
 	deleteItem,
 } = require("../controllers/Item/itemController.js");
 
@@ -22,6 +23,7 @@ router
 router
 	.route("/:itemId")
 	.get([protect], getItemById)
+	.put([protect, superAdmin, upload.single("image")], updateItem)
 	.delete([protect, superAdmin], deleteItem);
 
 module.exports = router;

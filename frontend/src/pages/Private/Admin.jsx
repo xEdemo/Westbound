@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchUserInfo } from "../../slices/user/userSlice.js";
-import { fetchEnum } from "../../slices/enum/enumSlice.js";
+import { fetchEnums } from "../../slices/enum/enumSlice.js";
 import { useDispatch } from "react-redux";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -17,7 +17,7 @@ const Admin = () => {
 		try {
 			const res = await dispatch(fetchUserInfo()).unwrap();
 			//console.log(res);
-			const enumRes = await dispatch(fetchEnum()).unwrap();
+			const enumRes = await dispatch(fetchEnums()).unwrap();
 			
 			if (res) {
 				setUserData(res);

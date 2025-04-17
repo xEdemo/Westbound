@@ -8,13 +8,13 @@ import {
 	DeleteModal,
 } from "../../../../components";
 import { toast } from "react-toastify";
-import { fetchItems, deleteItem } from "../../../../slices/item/itemSlice.js";
+import { fetchEnums, deleteEnum } from "../../../../slices/enum/enumSlice.js";
 import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
 
-const Item = () => {
-	const [deleteModalItem, setDeleteModalItem] = useState(null);
+const Enum = () => {
+	const [deleteModalEnum, setDeleteModalEnum] = useState(null);
 
-	const { items, loading, error } = useSelector((state) => state.item);
+	const { enums, loading, error } = useSelector((state) => state.enum);
 
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Item = () => {
 
 	const fetch = async () => {
 		try {
-			const res = await dispatch(fetchItems()).unwrap();
+			const res = await dispatch(fetchEnums()).unwrap();
 			//console.log(res);
 		} catch (err) {
 			toast.error(err);
@@ -38,11 +38,6 @@ const Item = () => {
 			{
 				label: "ID",
 				accessor: "_id",
-				sortable: true,
-			},
-			{
-				label: "Name",
-				accessor: "name",
 				sortable: true,
 			},
 			{
@@ -69,7 +64,7 @@ const Item = () => {
 						className="admin-hover-icon-put"
 						onClick={(e) => {
 							e.stopPropagation();
-							navigate(`/admin/item/${row._id}`);
+							navigate(`/admin/enum/${row._id}`);
 						}}
 					/>
 				),
@@ -83,7 +78,7 @@ const Item = () => {
 						className="admin-hover-icon-delete"
 						onClick={(e) => {
 							e.stopPropagation();
-							setDeleteModalItem(row);
+							setDeleteModalEnum(row);
 						}}
 					/>
 				),
@@ -94,43 +89,43 @@ const Item = () => {
 
 	const confirmDelete = async () => {
 		try {
-			await dispatch(deleteItem(deleteModalItem._id)).unwrap();
-			toast.success(`${deleteModalItem.name} was successfully deleted.`);
-			setDeleteModalItem(null);
+			await dispatch(deleteEnum(deleteModalEnum._id)).unwrap();
+			toast.success(`${deleteModalEnum.category} was successfully deleted.`);
+			setDeleteModalEnum(null);
 		} catch (err) {
 			toast.error(err);
 		}
 	};
 
 	const cancelDelete = () => {
-		setDeleteModalItem(null);
+		setDeleteModalEnum(null);
 	};
 
 	return (
 		<AdminLayout>
-			{location.pathname === "/admin/item" && (
+			{location.pathname === "/admin/enum" && (
 				<>
 					<div className="admin-controller-container">
 						<div className="admin-title-container">
-							<h1>Item Controller</h1>
+							<h1>Enum Controller</h1>
 							<button
 								type="button"
-								onClick={() => navigate("/admin/item/create")}
+								onClick={() => navigate("/admin/enum/create")}
 							>
-								Create a new item
+								Create a new enum
 							</button>
 						</div>
 						<div>
-							{loading || !items ? (
+							{loading || !enums ? (
 								<Loading />
 							) : (
-								<DynamicTable columns={columns} data={items} />
+								<DynamicTable columns={columns} data={enums} />
 							)}
 						</div>
 					</div>
-					{deleteModalItem && (
+					{deleteModalEnum && (
 						<DeleteModal
-							obj={deleteModalItem}
+							obj={deleteModalEnum}
 							onConfirm={confirmDelete}
 							onCancel={cancelDelete}
 						/>
@@ -142,4 +137,4 @@ const Item = () => {
 	);
 };
 
-export default Item;
+export default Enum;

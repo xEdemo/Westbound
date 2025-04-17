@@ -6,7 +6,7 @@ const { protect, admin, superAdmin } = require("../middleware/authHandler.js");
 const {
 	createEnum,
 	getAllEnums,
-	editNamesByEnumId,
+	updateEnum,
 	deleteEnumById,
 } = require("../controllers/Misc/enumController.js");
 
@@ -16,7 +16,7 @@ router
 	.get([protect, admin], getAllEnums);
 router
 	.route("/:enumId")
-	.put([protect, superAdmin], editNamesByEnumId)
+	.put([protect, superAdmin], updateEnum)
 	.delete([protect, superAdmin], deleteEnumById);
 
 module.exports = router;

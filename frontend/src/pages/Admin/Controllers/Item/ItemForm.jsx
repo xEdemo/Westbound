@@ -41,7 +41,6 @@ const ItemForm = ({ mode }) => {
 		},
 		weapon: {
 			type: "", // dropdown
-			noiseLevel: "",
 			accuracy: "",
 			damage: {
 				type: "",
@@ -104,17 +103,16 @@ const ItemForm = ({ mode }) => {
 				},
 				weapon: {
 					type: item?.weapon?.type || "",
-					noiseLevel: item?.weapon?.noiseLevel || "",
 					accuracy: item?.weapon?.accuracy || "",
 					damage: {
 						type: item?.weapon?.damage?.type || "",
 						amount: item?.weapon?.damage?.amount || "",
 					},
 					ammunition: {
-						type: item?.ammunition?.type || [],
+						type: item?.weapon?.ammunition?.type || [],
 						expenditure: {
-							high: item?.expenditure?.ammunition?.high || "",
-							low: item?.expenditure?.ammunition?.low || "",
+							high: item?.weapon?.ammunition?.expenditure?.high || "",
+							low: item?.weapon?.ammunition?.expenditure?.low || "",
 						},
 					},
 				},
@@ -169,6 +167,21 @@ const ItemForm = ({ mode }) => {
 				type: "text",
 				required: true,
 				unique: true,
+				uniqueValues: () => {
+					let itemNameArray = [];
+					items &&
+						items.map((n) =>
+							itemNameArray.push(n.name.toLowerCase())
+						);
+					if (mode === "edit") {
+						itemNameArray =
+							item &&
+							itemNameArray.filter(
+								(i) => i !== item.name.toLowerCase()
+							);
+					}
+					return itemNameArray;
+				},
 			},
 			{
 				name: "description",
@@ -182,7 +195,8 @@ const ItemForm = ({ mode }) => {
 				label: "Image",
 				type: "file",
 				required: mode === "create" ? true : false,
-				initialImageUrl: mode === "edit" ? item.image.url : null,
+				initialImageUrl:
+					mode === "edit" ? item && item.image.url : null,
 			},
 			{
 				name: "category",
@@ -474,15 +488,6 @@ const ItemForm = ({ mode }) => {
 						required: formValues.category.includes("Weapon"),
 					},
 					{
-						name: "noiseLevel",
-						label: "Noise Level",
-						type: "number",
-						disabled: !formValues.category.includes("Weapon"),
-						required: formValues.category.includes("Weapon"),
-						min: 0,
-						max: 100,
-					},
-					{
 						name: "accuracy",
 						label: "Accuracy",
 						type: "number",
@@ -623,9 +628,6 @@ const ItemForm = ({ mode }) => {
 				required: true,
 			},
 		],
-		submitText: mode === "edit" ? "Update Document" : "Create Document",
-		keyText:
-			"<span class='required-field'>*</span> signifies a required field. <br/><span class='unique-field'>*</span> signifies a unique field. <br/>Default states are prefilled for updating.",
 	};
 
 	return (

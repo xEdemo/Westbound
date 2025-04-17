@@ -1,14 +1,33 @@
-export const updateNestedValue = (obj, keyPath, newValue) => {
-	const keys = keyPath.split(".");
-	const updated = { ...obj };
-	let current = updated;
-	for (let i = 0; i < keys.length - 1; i++) {
-		current[keys[i]] = { ...current[keys[i]] };
-		current = current[keys[i]];
-	}
-	current[keys[keys.length - 1]] = newValue;
-	return updated;
-}
+export const updateNestedValue = (obj, path, value) => {
+	const keys = path.split(".");
+	const newObj = Array.isArray(obj) ? [...obj] : { ...obj };
+	let current = newObj;
+	keys.forEach((key, index) => {
+		const isIndex = !isNaN(Number(key));
+		const actualKey = isIndex ? Number(key) : key;
+		// If we are at the last key, update the value
+		if (index === keys.length - 1) {
+			current[actualKey] = value;
+		} else {
+			// If the next level is undefined, create it.
+			// Use an array if the next key appears to be a number.
+			if (typeof current[actualKey] === "undefined") {
+				const nextKey = keys[index + 1];
+				current[actualKey] = !isNaN(Number(nextKey)) ? [] : {};
+			} else {
+				// Otherwise, clone the existing value.
+				if (Array.isArray(current[actualKey])) {
+					current[actualKey] = [...current[actualKey]];
+				} else if (typeof current[actualKey] === "object") {
+					current[actualKey] = { ...current[actualKey] };
+				}
+			}
+			current = current[actualKey];
+		}
+	});
+
+	return newObj;
+};
 
 export const getValue = (keyPath, obj) => {
 	const keys = keyPath.split(".");
@@ -18,4 +37,4 @@ export const getValue = (keyPath, obj) => {
 		val = val[key];
 	}
 	return val === undefined ? "" : val;
-}
+};
